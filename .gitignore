@@ -40,6 +40,7 @@ packages/
 
 publish/
 wwwroot/dist/
+wwwroot/lib/
 node_modules/
 bower_components/
 
