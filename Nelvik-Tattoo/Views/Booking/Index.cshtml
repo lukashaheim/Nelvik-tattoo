@@ -1,0 +1,136 @@
+@model Nelvik_Tattoo.Models.Booking
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="css/booking.css">
+
+<form method="post" enctype="multipart/form-data">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+    <div class="wizard">
+        <!-- Første steg -->
+        <fieldset class="panel" id="p1">
+            <legend>1. Date and time</legend>
+            <label for="date">Date</label>
+            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+            <div style="display:flex; gap:10px; margin-top:10px">
+                <div style="flex:1">
+                    <label for="timeStart">From</label>
+                    <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                </div>
+                <div style="flex:1">
+                    <label for="timeEnd">To</label>
+                    <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Andre steg -->
+        <fieldset class="panel locked" id="p2" disabled>
+            <legend>2. Image</legend>
+            <label for="Photo">Upload</label>
+            <input id="Photo" type="file" accept="image/*" class="form-control" />
+        </fieldset>
+
+        <!-- Tredje steg -->
+        <fieldset class="panel locked" id="p3" disabled>
+            <legend>3. Details</legend>
+            <label for="Notes">Comments / placement / size</label>
+            <textarea id="Notes" name="Notes" class="form-control" rows="6"
+                      placeholder="Example. forearm, ca. 8x5 cm"></textarea>
+        </fieldset>
+    </div>
+
+    <div class="actions">
+        <button type="button" id="prev" class="btn btn-secondary" disabled>Back</button>
+        <button type="button" id="next" class="btn btn-primary">Next</button>
+        <form asp-controller="Booking" asp-action="Confirmation" method="post">
+        <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
+        </form>
+
+    </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Pickers
+    flatpickr("#date",{
+        dateFormat:"d-m-Y",
+        defaultDate:"today",
+        minDate:"today",
+        maxDate:new Date().fp_incr(61)}
+    );
+    const timeStartPicker = flatpickr("#timeStart",{
+        enableTime:true,
+        noCalendar:true,
+        time_24hr:true,
+        dateFormat:"H:i",
+        minTime:"08:00",
+        maxTime:"16:00",
+        onChange:(_,str)=>timeEndPicker.set('minTime',str)}
+    );
+    const timeEndPicker = flatpickr("#timeEnd",{
+        enableTime:true,
+        noCalendar:true,
+        time_24hr:true,
+        dateFormat:"H:i",
+        minTime:"08:00",
+        maxTime:"16:00"}
+    );
+
+    // Paneler er alltid synlige; kun lås/åpne funksjon.
+    let step = 1, max = 3;
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const finishBtn = document.getElementById('finish');
+
+    function unlock(n){
+        const fs = document.getElementById('p'+n);
+        fs.disabled = false;
+        fs.classList.remove('locked');
+    }
+    function lock(n){
+        const fs = document.getElementById('p'+n);
+        fs.disabled = true;
+        fs.classList.add('locked');
+    }
+    function validate(n){
+        if(n===1){
+            const d = document.getElementById('date').value;
+            const a = document.getElementById('timeStart').value;
+            const b = document.getElementById('timeEnd').value;
+            if(!d || !a || !b){ alert('Velg dato og tid.'); return false; }
+            if(a > b){ alert('Slutt-tid kan ikke være før start.'); return false; }
+        }
+        return true;
+    }
+    function updateButtons(){
+        prevBtn.disabled = step===1;
+        nextBtn.disabled = step===max;
+        finishBtn.disabled = step!==max;
+    }
+    
+    function updateProgress() {
+        const percent = (step / max) * 100;
+        document.getElementById('progress').style.width = percent + '%';
+    }
+    
+    prevBtn.onclick = () => {
+        if(step>1) {
+            step--;
+            updateButtons();
+            updateProgress();
+        } 
+    };
+    nextBtn.onclick = () => {
+        if(!validate(step)) return;
+        if(step < max){ 
+            step++; 
+            unlock(step); 
+            updateButtons();
+            updateProgress();
+        }
+    };
+
+    // init: p1 åpen, p2/p3 låst
+    unlock(1); lock(2); lock(3); updateButtons(); updateProgress();
+</script>

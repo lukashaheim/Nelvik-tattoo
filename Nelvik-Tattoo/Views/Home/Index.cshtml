@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@section FullWidth {
+    <div class="container-fluid px-0">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>I</h1>
+            </div>
+        </div>
+    </div>
+}
+
+@section Styles {
+    <style>
+    .hero-section {
+        background-image: url('@Url.Content("~/Images/Gallery/forside_1.jpg")');
+    }
+  </style>
+}
+
+<a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-primary">Book time</a>
