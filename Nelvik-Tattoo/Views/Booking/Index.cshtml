@@ -6,37 +6,79 @@
     <div class="progress-bar">
         <div class="progress-fill" id="progress"></div>
     </div>
-    <div class="wizard">
-        <!-- Første steg -->
-        <fieldset class="panel" id="p1">
-            <legend>1. Date and time</legend>
+    <div class="wizard booking-grid">
+        <!-- Design / Concept -->
+        <fieldset class="panel " id="p1">
+            <legend>1. Design / Concept</legend>
+            <label for="Design">Dette må endres</label>
+            <textarea id="Design" name="Design" class="form-control" rows="6"
+                      placeholder="Dette må også endres"></textarea>
+        </fieldset>
+        <!-- Placement -->
+        <fieldset class="panel locked" id="p2">
+            <legend>2. Placement</legend>
+            <label for="Placement">Dette må endres</label>
+            <textarea id="Placement" name="Placement" class="form-control" rows="6"
+                      placeholder="Example. Forearm"></textarea>
+        </fieldset>
+        <!-- Size -->
+        <fieldset class="panel locked" id="p3">
+            <legend>3. Size</legend>
+            <input type="radio" class="btn-check" name="Size" id="small" value="Small" autocomplete="off">
+            <label class="btn size-choice" for="small">Small<br>5–10 cm</label>
+            <br/>
+            <input type="radio" class="btn-check" name="Size" id="medium" value="Medium" autocomplete="off">
+            <label class="btn size-choice" for="medium">Medium<br>10–20 cm</label>
+            <br/>
+            <input type="radio" class="btn-check" name="Size" id="large" value="Large" autocomplete="off">
+            <label class="btn size-choice" for="large">Large<br>20–30 cm</label>
+            <br/>
+            <input type="radio" class="btn-check" name="Size" id="xl" value="Xl" autocomplete="off">
+            <label class="btn size-choice" for="xl">XL<br>Over 30 cm</label>
+        </fieldset>
+        <!-- Image -->
+        <fieldset class="panel locked" id="p4" disabled>
+            <legend>4. Image</legend>
+            <label for="Photo">Upload</label>
+            <input id="Photo" type="file" accept="image/*" class="form-control"/>
+        </fieldset>
+        <!-- Color theme -->
+        <fieldset class="panel locked" id="p5">
+            <legend>5. Color theme</legend>
+            <input type="radio" class="btn-check" name="Theme" id="monochrome" value="Monochrome" autocomplete="off">
+            <label class="btn size-choice" for="monochrome">Monochrome</label>
+            <br/>
+            <input type="radio" class="btn-check" name="Theme" id="multicolor" value="Multicolor" autocomplete="off">
+            <label class="btn size-choice" for="multicolor">Multicolor</label>
+        </fieldset>
+        <!-- Budget / Pricerange -->
+        <fieldset class="panel locked" id="p6">
+            <legend>6. Budget / Pricerange</legend>
+            <textarea id="Budget" name="Budget" class="form-control" rows="6"
+                      placeholder="Example. 3000 - 6500 kr"></textarea>
+        </fieldset>
+        <!-- Date / Time -->
+        <fieldset class="panel locked" id="p7">
+            <legend>7. Preferred Date / Time</legend>
             <label for="date">Date</label>
-            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}"/>
             <div style="display:flex; gap:10px; margin-top:10px">
                 <div style="flex:1">
                     <label for="timeStart">From</label>
-                    <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}"/>
                 </div>
                 <div style="flex:1">
                     <label for="timeEnd">To</label>
-                    <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}"/>
                 </div>
             </div>
         </fieldset>
-
-        <!-- Andre steg -->
-        <fieldset class="panel locked" id="p2" disabled>
-            <legend>2. Image</legend>
-            <label for="Photo">Upload</label>
-            <input id="Photo" type="file" accept="image/*" class="form-control" />
-        </fieldset>
-
-        <!-- Tredje steg -->
-        <fieldset class="panel locked" id="p3" disabled>
-            <legend>3. Details</legend>
-            <label for="Notes">Comments / placement / size</label>
-            <textarea id="Notes" name="Notes" class="form-control" rows="6"
-                      placeholder="Example. forearm, ca. 8x5 cm"></textarea>
+        <!-- Comment -->
+        <fieldset class="panel locked" id="p8" disabled>
+            <legend>8. Comment</legend>
+            <label for="Comment">Anything else we need to know?</label>
+            <textarea id="Comment" name="Comment" class="form-control" rows="6"
+                      placeholder="Example. Sensitive skin"></textarea>
         </fieldset>
     </div>
 
@@ -78,7 +120,7 @@
     );
 
     // Paneler er alltid synlige; kun lås/åpne funksjon.
-    let step = 1, max = 3;
+    let step = 1, max = 8;
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
     const finishBtn = document.getElementById('finish');
@@ -94,7 +136,7 @@
         fs.classList.add('locked');
     }
     function validate(n){
-        if(n===1){
+        if(n===7){
             const d = document.getElementById('date').value;
             const a = document.getElementById('timeStart').value;
             const b = document.getElementById('timeEnd').value;
@@ -117,6 +159,7 @@
     prevBtn.onclick = () => {
         if(step>1) {
             step--;
+            lock(step+1)
             updateButtons();
             updateProgress();
         } 
@@ -130,7 +173,5 @@
             updateProgress();
         }
     };
-
-    // init: p1 åpen, p2/p3 låst
-    unlock(1); lock(2); lock(3); updateButtons(); updateProgress();
+     updateButtons(); updateProgress();
 </script>

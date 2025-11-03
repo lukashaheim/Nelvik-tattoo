@@ -99,4 +99,39 @@
     transition: width 0.4s ease;
 }
 
+.size-choice {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 4px;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.size-choice {
+    margin-bottom: 10px;
+}
+
+.btn-check:checked + .size-choice {
+    border-color: #000;
+    background: #fafafa;
+    font-weight: 600;
+}
+
+.size-choice:hover {
+    background: #f1f1f1;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+}
+
+
 
