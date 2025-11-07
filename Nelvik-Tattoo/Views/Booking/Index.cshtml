@@ -77,11 +77,11 @@
             <div class="row">
             <label>Preferred contact method</label>
             <label>
-                <input type="radio" name="contactMethod" value="email">
+                <input id="emailCM" type="radio" name="contactMethod" value="email" required>
                 Email
             </label>
             <label>
-                <input type="radio" name="contactMethod" value="phone">
+                <input id="phoneCM" type="radio" name="contactMethod" value="phone">
                 SMS
             </label>
             </div>
@@ -149,12 +149,19 @@
         fs.classList.add('locked');
     }
     function validate(n){
-        if(n===7){
+        if(n===6){
             const d = document.getElementById('date').value;
             const a = document.getElementById('timeStart').value;
             const b = document.getElementById('timeEnd').value;
             if(!d || !a || !b){ alert('Choose a date and time.'); return false; }
             if(a > b){ alert('end time cannot be before start time.'); return false; }
+        }
+        return true;
+    }
+    function ValidateContactMethod(n){
+        if(n===7){
+            const chosen = document.querySelector('input[name="contactMethod"]:checked');
+            if(!chosen){ alert('Choose preferred contact method'); return false; }
         }
         return true;
     }
@@ -178,6 +185,7 @@
         } 
     };
     nextBtn.onclick = () => {
+        if(!ValidateContactMethod(step)) return;
         if(!validate(step)) return;
         if(step < max){ 
             step++; 
