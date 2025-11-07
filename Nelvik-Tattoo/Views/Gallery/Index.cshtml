@@ -1,19 +1,54 @@
-<link rel="stylesheet" href="css/gallery.css">
-
 @{
     ViewData["Title"] = "Gallery";
 }
-<div class="container">
-    <div class="row">
-        <h2>Flash</h2>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/gallery.css" asp-append-version="true" />
+}
+
+<section class="gallery-page container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="gallery-grid">
+        <img src="/Images/Gallery/image00001.jpeg" alt="Tattoo 1" />
+        <img src="/Images/Gallery/image00002_1.jpeg" alt="Tattoo 2" />
+        <img src="/Images/Gallery/image00005.jpeg" alt="Tattoo 3" />
+        <img src="/Images/Gallery/image00006.jpeg" alt="Tattoo 4" />
+        <img src="/Images/Gallery/image00008.jpeg" alt="Tattoo 5" />
+        <img src="/Images/Gallery/image00009.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00010.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00011.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00002_2.jpeg" alt="Tattoo 6" />
+        
     </div>
-    <div class="row">
-        <h2>Unavailable</h2>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
-        <img src="Images/Gallery/hei.jpg" alt="test bilde" width="300"/>
+</section>
+
+<section class="flash-section">
+    <div class="flash-header">
+        <h2>Flash tattoos</h2>
+        <a href="/Flash" class="flash-link">View flash tattoos →</a>
     </div>
-</div>
+
+    <div class="flash-scroll">
+        <img src="@Url.Content("~/Images/flash/image0.jpeg")" alt="Flash 1" />
+        <img src="@Url.Content("~/Images/flash/image1.jpeg")" alt="Flash 2" />
+        <img src="@Url.Content("~/Images/flash/image2.jpeg")" alt="Flash 3" />
+        <img src="@Url.Content("~/Images/flash/image3.jpeg")" alt="Flash 4" />
+        <img src="@Url.Content("~/Images/flash/image4.jpeg")" alt="Flash 5" />
+        <img src="@Url.Content("~/Images/flash/image0.jpeg")" alt="Flash 6" />
+    </div>
+</section>
+
+<section class="gallery-page container">
+    <div class="gallery-grid">
+        <img src="/Images/Gallery/image00001.jpeg" alt="Tattoo 1" />
+        <img src="/Images/Gallery/image00002_1.jpeg" alt="Tattoo 2" />
+        <img src="/Images/Gallery/image00005.jpeg" alt="Tattoo 3" />
+        <img src="/Images/Gallery/image00006.jpeg" alt="Tattoo 4" />
+        <img src="/Images/Gallery/image00008.jpeg" alt="Tattoo 5" />
+        <img src="/Images/Gallery/image00009.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00010.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00011.jpeg" alt="Tattoo 6" />
+        <img src="/Images/Gallery/image00002_2.jpeg" alt="Tattoo 6" />
+    </div>
+</section>

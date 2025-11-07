@@ -4,3 +4,95 @@ img {
     display: block;
     margin: 0 auto;
 }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Tittel */
+.gallery-page h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 3 bilder per rad */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 0.25rem; /* nesten uten mellomrom */
+}
+
+.gallery-grid img {
+    width: 100%;
+    aspect-ratio: 3 / 4;   /* eller 1 / 1 for kvadratisk */
+    object-fit: cover;     /* fyller ruten uten å forvrenge bildet */
+    display: block;
+    border-radius: 0;      /* ← gjør kantene rette */
+}
+
+/* --- Flash stripe --- */
+.flash-section {
+    margin-top: 3rem;
+    width: 100%;              /* vanlig 100%, ikke 100vw */
+    background: #fff;
+    overflow: hidden;         /* hindrer at noe stikker ut */
+}
+
+.flash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;          /* sentrer innholdet */
+    padding: 0 1rem;
+}
+
+.flash-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+    scrollbar-width: none;
+}
+.flash-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+
+.flash-scroll img {
+    flex: 0 0 auto;
+    width: 420px;               /* større bredde */
+    height: 420px;              /* høyere bilder */
+    object-fit: cover;
+    scroll-snap-align: start;
+    border-radius: 0;
+    display: block;
+}
+
+
+/* Flash-side (grid + bildeformat) */
+.flash-page .flash-grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+    .flash-page .flash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    .flash-page .flash-grid { grid-template-columns: 1fr; }
+}
+
+.flash-page .flash-grid img {
+    width: 100%;
+    aspect-ratio: 3 / 4;   /* eller bruk height: 350px; */
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+}
