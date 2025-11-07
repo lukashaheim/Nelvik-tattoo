@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/Nelvik_Tattoo.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/gallery.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/about.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/nav.css" asp-append-version="true" />
 
 
     @RenderSection("Styles", required: false)
@@ -17,15 +18,15 @@
 <body>
 @RenderSection("FullWidth", required: false)
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 custom-navbar">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Nelvik_Tattoo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav ms-auto gap-3">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
@@ -35,8 +36,10 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="Index">Gallery</a>
                     </li>
+                    <li class="nav-item">
+                        <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-primary">Book time</a>
+                    </li>
                 </ul>
-                <partial name="_LoginPartial"/>
             </div>
         </div>
     </nav>
