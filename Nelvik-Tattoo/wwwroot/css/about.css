@@ -1,0 +1,52 @@
+﻿/* Give equal space on left and right edges */
+.about-container {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    max-width: 1200px;  /* keeps content centered on wide screens */
+    margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .about-container {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Make text take remaining space */
+.text-column {
+    flex: 1;
+}
+
+/* Fixed image width + nice crop */
+.image-column {
+    flex-shrink: 0;
+}
+
+.image-container {
+    width: 350px;
+    height: 400px;
+    /*aspect-ratio: 3 / 4;*/
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#aboutImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.about-container .row {
+    gap: 100px; /* increase this number for more space between text and image */
+}
+
