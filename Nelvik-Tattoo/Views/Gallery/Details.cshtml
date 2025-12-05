@@ -1,0 +1,51 @@
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
+
+@{
+    ViewData["Title"] = Model.Title;
+
+    // Velg riktig mappe automatisk
+    var folder = Model.IsFlash ? "flash" : "Gallery";
+}
+
+<link rel="stylesheet" href="~/css/gallery-details.css" />
+
+<div class="container details-wrapper mt-5 mb-5">
+    <div class="row justify-content-center">
+
+        <!-- BILDESEKSJON -->
+        <div class="col-lg-7 col-md-7 col-sm-12 mb-4">
+            <img src="/Images/@folder/@Model.ImagePath"
+                 alt="@Model.Title"
+                 class="img-fluid details-image" />
+        </div>
+
+        <!-- INFOSEKSJON -->
+        <div class="col-lg-5 col-md-5 col-sm-12 details-info">
+
+            <h2 class="details-title">@Model.Title</h2>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p class="details-description">@Model.Description</p>
+            }
+
+            <!-- Kun for flash-design (til salgs) -->
+            @if (Model.IsFlash)
+            {
+                <h4 class="details-price">@Model.Price kr</h4>
+
+                <a class="btn btn-dark details-btn"
+                   href="/Booking/SelectDesign/@Model.Id">
+                    Velg motiv til bestilling
+                </a>
+            }
+            else
+            {
+                <p class="text-muted mt-3">
+                    Dette motivet er ferdigstilt og ikke tilgjengelig for bestilling.
+                </p>
+            }
+
+        </div>
+    </div>
+</div>

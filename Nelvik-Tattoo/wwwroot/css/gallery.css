@@ -22,8 +22,10 @@ img {
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 0.25rem; /* nesten uten mellomrom */
+    gap: 0.25rem;
+    min-height: 300px; /* ← nytt */
 }
+
 
 .gallery-grid img {
     width: 100%;
@@ -32,6 +34,12 @@ img {
     display: block;
     border-radius: 0;      /* ← gjør kantene rette */
 }
+
+.gallery-item {
+    display: block;
+    width: 100%;
+}
+
 
 /* --- Flash stripe --- */
 .flash-section {
