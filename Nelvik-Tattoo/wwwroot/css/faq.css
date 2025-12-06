@@ -1,0 +1,80 @@
+﻿.faq-container {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .faq-container {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .faq-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Tekst tar resten av bredden */
+.text-column {
+    flex: 1;
+}
+
+/* Bildekolonne med fast bredde */
+.image-column {
+    flex-shrink: 0;
+}
+
+.image-container {
+    width: 450px;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#faqImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+#faqImg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.faq-container {
+    padding: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.faq-container h1 {
+    color: #8B0000;
+}
+
+.faq-container h5,
+.faq-container p {
+    color: #ffffff;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url("../Images/faq-bkg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

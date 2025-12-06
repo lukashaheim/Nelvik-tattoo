@@ -11,11 +11,13 @@
     <link rel="stylesheet" href="~/gallery.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/about.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/nav.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/faq.css" asp-append-version="true" />
 
 
     @RenderSection("Styles", required: false)
     </head>
 <body>
+
 @RenderSection("FullWidth", required: false)
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 custom-navbar">
@@ -37,6 +39,9 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="Index">Gallery</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Faq" asp-action="Index">Faq</a>
+                    </li>
+                    <li class="nav-item">
                         <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-dark">Book time</a>
                     </li>
                 </ul>
@@ -44,6 +49,9 @@
         </div>
     </nav>
 </header>
+
+@await RenderSectionAsync("Scripts", required: false)
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -58,6 +66,6 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
