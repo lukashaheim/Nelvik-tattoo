@@ -22,7 +22,7 @@ builder.Services.AddRazorPages()
         options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/MyPlace");
     });
 
-// Sørg for at [Authorize]-redirect også peker til /MyPlace
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/MyPlace";
