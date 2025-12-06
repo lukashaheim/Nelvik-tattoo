@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Nelvik_Tattoo.Controllers
 {
-    [Authorize] // krever innlogging
+    [Authorize(Policy = "OwnerOnly")]
+    [Route("theking")]                 // admin-side nå på /theking (ikke /admin)
     public class AdminController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        [HttpGet("")]
+        public IActionResult Index() => View();
     }
 }

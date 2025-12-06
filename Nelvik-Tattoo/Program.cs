@@ -15,6 +15,27 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        // Alias: /MyPlace peker til Identity sin login-side
+        options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/MyPlace");
+    });
+
+// Sørg for at [Authorize]-redirect også peker til /MyPlace
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/MyPlace";
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OwnerOnly", policy =>
+        policy.RequireAssertion(ctx =>
+            ctx.User?.Identity?.IsAuthenticated == true &&
+            ctx.User.Identity!.Name == "owner@nelviktattoo.no")); // <- eier-epost
+});
+
 var app = builder.Build();
 
 await OwnerUserSeeder.SeedAsync(app.Services);
@@ -46,14 +67,13 @@ app.MapControllerRoute(
 app.MapRazorPages()
     .WithStaticAssets();
 
-// Deaktiver/blokker direkte tilgang til register-siden
+// blokker direkte tilgang til register-siden
 app.MapGet("/Identity/Account/Register", () => Results.NotFound());
 app.MapPost("/Identity/Account/Register", () => Results.NotFound());
 
-app.MapGet("/login", async context =>
-{
-    context.Response.Redirect("/Identity/Account/Login");
-});
+// Blokker direkte tilgang til den gamle login-adressen
+app.MapGet("/Identity/Account/Login", () => Results.NotFound());
+app.MapPost("/Identity/Account/Login", () => Results.NotFound());
 
 
 app.Run();
