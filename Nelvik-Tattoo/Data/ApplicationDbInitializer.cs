@@ -1,124 +1,58 @@
 using Nelvik_Tattoo.Models;
 
-namespace Nelvik_Tattoo.Data;
-
-public static class ApplicationDbInitializer
+namespace Nelvik_Tattoo.Data
 {
-    public static void Initialize(ApplicationDbContext db)
+    public static class ApplicationDbInitializer
     {
-        db.Database.EnsureDeleted();
-        db.Database.EnsureCreated();
-        
-        Console.WriteLine(">>> Har GalleryDesigns: " + db.GalleryDesigns.Count());
+        public static void Initialize(ApplicationDbContext db, IWebHostEnvironment env)
+        {
+            // 1. Slett databasen (fordi du ønsker ren start hver gang)
+            db.Database.EnsureDeleted();
 
+            // 2. Opprett databasen
+            db.Database.EnsureCreated();
+            Console.WriteLine("Database created. Antall motiver: " + db.GalleryDesigns.Count());
 
-        db.GalleryDesigns.AddRange(
-            new GalleryDesign
+            // 3. Seed data KUN hvis databasen er tom
+            if (!db.GalleryDesigns.Any())
             {
-                Title = "Test Flash 1",
-                ImagePath = "image0.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 2",
-                ImagePath = "image1.jpeg",
-                IsFlash = true,
-                Price = 1500,
-                Description = "En annen variant av flashmotiv"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 3",
-                ImagePath = "image2.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 4",
-                ImagePath = "image3.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 5",
-                ImagePath = "image4.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 1",
-                ImagePath = "image0.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 2",
-                ImagePath = "image1.jpeg",
-                IsFlash = true,
-                Price = 1500,
-                Description = "En annen variant av flashmotiv"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 3",
-                ImagePath = "image2.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 4",
-                ImagePath = "image3.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Test Flash 5",
-                ImagePath = "image4.jpeg", // Ligger i wwwroot/Images/flash/
-                IsFlash = true,
-                Price = 1200,
-                Description = "Et kult flashmotiv med tribal-design"
-            },
-            new GalleryDesign
-            {
-                Title = "Ferdig motiv 1",
-                ImagePath = "image00001.jpeg", // Ligger i wwwroot/Images/Gallery/
-                IsFlash = false,
-                Description = "Et tidligere motiv som er ferdigstilt"
-            },
-            new GalleryDesign
-            {
-                Title = "Ferdig motiv 2",
-                ImagePath = "image00002_1.jpeg", // Ligger i wwwroot/Images/Gallery/
-                IsFlash = false,
-                Description = "Et tidligere motiv som er ferdigstilt"
-            },
-            new GalleryDesign
-            {
-                Title = "Ferdig motiv 3",
-                ImagePath = "image00005.jpeg", // Ligger i wwwroot/Images/Gallery/
-                IsFlash = false,
-                Description = "Et tidligere motiv som er ferdigstilt"
+                Console.WriteLine("Seeding default gallery designs...");
+
+                var flashDir = Path.Combine(env.WebRootPath, "Images/Preloaded/Flash");
+                var finishedDir = Path.Combine(env.WebRootPath, "Images/Preloaded/Finished");
+
+                // ---- SEED FLASH ----
+                if (Directory.Exists(flashDir))
+                {
+                    foreach (var file in Directory.GetFiles(flashDir))
+                    {
+                        db.GalleryDesigns.Add(new GalleryDesign
+                        {
+                            Title = Path.GetFileNameWithoutExtension(file),
+                            ImagePath = "/Images/Preloaded/Flash/" + Path.GetFileName(file),
+                            IsFlash = true,
+                            Price = 1000
+                        });
+                    }
+                }
+
+                // ---- SEED FINISHED ----
+                if (Directory.Exists(finishedDir))
+                {
+                    foreach (var file in Directory.GetFiles(finishedDir))
+                    {
+                        db.GalleryDesigns.Add(new GalleryDesign
+                        {
+                            Title = Path.GetFileNameWithoutExtension(file),
+                            ImagePath = "/Images/Preloaded/Finished/" + Path.GetFileName(file),
+                            IsFlash = false
+                        });
+                    }
+                }
+
+                db.SaveChanges();
+                Console.WriteLine("Seeding complete.");
             }
-            
-            
-        );
-
-
-        db.SaveChanges();
+        }
     }
 }

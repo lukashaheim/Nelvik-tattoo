@@ -1,51 +1,42 @@
-﻿@model Nelvik_Tattoo.Models.GalleryDesign
+﻿@model GalleryDesign
 
 @{
     ViewData["Title"] = Model.Title;
-
-    // Velg riktig mappe automatisk
-    var folder = Model.IsFlash ? "flash" : "Gallery";
 }
 
-<link rel="stylesheet" href="~/css/gallery-details.css" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/gallery-details.css" asp-append-version="true" />
+}
 
-<div class="container details-wrapper mt-5 mb-5">
-    <div class="row justify-content-center">
+<section class="gallery-details container">
+    <a asp-controller="Gallery" asp-action="Index" class="btn btn-link mb-3">← Tilbake til galleri</a>
 
-        <!-- BILDESEKSJON -->
-        <div class="col-lg-7 col-md-7 col-sm-12 mb-4">
-            <img src="/Images/@folder/@Model.ImagePath"
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ImagePath"
                  alt="@Model.Title"
-                 class="img-fluid details-image" />
+                 style="width:100%; height:auto; display:block; border-radius:8px;" />
         </div>
 
-        <!-- INFOSEKSJON -->
-        <div class="col-lg-5 col-md-5 col-sm-12 details-info">
-
-            <h2 class="details-title">@Model.Title</h2>
+        <div class="col-md-6">
+            <h1>@Model.Title</h1>
 
             @if (!string.IsNullOrWhiteSpace(Model.Description))
             {
-                <p class="details-description">@Model.Description</p>
+                <p class="mt-3">@Model.Description</p>
             }
 
-            <!-- Kun for flash-design (til salgs) -->
-            @if (Model.IsFlash)
-            {
-                <h4 class="details-price">@Model.Price kr</h4>
+            <p class="mt-3">
+                <strong>Type motiv:</strong>
+                @(Model.IsFlash ? "Flash (til salgs)" : "Tidligere motiv")
+            </p>
 
-                <a class="btn btn-dark details-btn"
-                   href="/Booking/SelectDesign/@Model.Id">
-                    Velg motiv til bestilling
-                </a>
-            }
-            else
+            @if (Model.IsFlash && Model.Price.HasValue)
             {
-                <p class="text-muted mt-3">
-                    Dette motivet er ferdigstilt og ikke tilgjengelig for bestilling.
+                <p class="mt-2">
+                    <strong>Pris:</strong> @Model.Price kr
                 </p>
             }
-
         </div>
     </div>
-</div>
+</section>

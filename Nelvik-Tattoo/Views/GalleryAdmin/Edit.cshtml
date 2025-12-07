@@ -1,10 +1,10 @@
-﻿@model Nelvik_Tattoo.Models.FlashDesign
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
 
 @{
-    ViewData["Title"] = "Rediger flashmotiv";
+    ViewData["Title"] = "Rediger motiv";
 }
 
-<h2 class="mb-4">Rediger Flashmotiv</h2>
+<h2 class="mb-4">Rediger motiv</h2>
 
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
@@ -20,13 +20,14 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
-        <input asp-for="Price" type="number" step="50" class="form-control" />
+        <label asp-for="IsFlash" class="form-label">Er dette et flashmotiv?</label>
+        <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
+        <div class="form-text">Flash = til salgs. Av = tidligere motiv.</div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="IsAvailable" class="form-label">Tilgjengelig?</label>
-        <input asp-for="IsAvailable" type="checkbox" class="form-check-input ms-2" />
+        <label asp-for="Price" class="form-label">Pris (kun for flash)</label>
+        <input asp-for="Price" type="number" step="50" class="form-control" />
     </div>
 
     <div class="mb-3">
@@ -43,5 +44,5 @@
     </div>
 
     <button class="btn btn-primary" type="submit">💾 Oppdater</button>
-    <a class="btn btn-secondary" href="/FlashAdmin">Avbryt</a>
+    <a class="btn btn-secondary" href="/GalleryAdmin">Avbryt</a>
 </form>

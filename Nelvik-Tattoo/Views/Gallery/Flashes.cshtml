@@ -15,8 +15,7 @@
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => m.IsFlash))
         {
-            <p>Filnavn: @item.ImagePath</p>
-            <img src="/Images/flash/@item.ImagePath" alt="TEST" style="width: 100%; max-width: 300px;" />
+            <img src="@item.ImagePath" alt="@item.Title" class="gallery-img" />
         }
     </div>
 </section>

@@ -27,9 +27,11 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    ApplicationDbInitializer.Initialize(db); // <-- legg til denne linja
-    //db.Database.Migrate();
+    var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+    ApplicationDbInitializer.Initialize(db, env);
 }
+
 
 // ---------------------------
 // Pipeline

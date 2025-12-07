@@ -40,19 +40,6 @@ namespace Nelvik_Tattoo.Controllers
         }
 
         // -------------------------------------------
-        // KUN TIDLIGERE MOTIVER
-        // -------------------------------------------
-        public async Task<IActionResult> Previous()
-        {
-            var previous = await _context.GalleryDesigns
-                .Where(d => !d.IsFlash)
-                .OrderByDescending(d => d.Id)
-                .ToListAsync();
-
-            return View(previous);
-        }
-
-        // -------------------------------------------
         // DETALJER FOR ETT MOTIV
         // -------------------------------------------
         public async Task<IActionResult> Details(int id)

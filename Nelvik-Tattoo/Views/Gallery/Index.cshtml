@@ -1,7 +1,7 @@
 @model IEnumerable<GalleryDesign>
 
 @{
-    ViewData["Title"] = "Alle motiver";
+    ViewData["Title"] = "Galleri";
 }
 
 @section Styles {
@@ -11,12 +11,12 @@
 <section class="gallery-page container">
     <h1>@ViewData["Title"]</h1>
 
-    <!-- Flash-ruten (stripe) -->
+    <!-- FLASH-STRIPE -->
     <h2>Tilgjengelige flash tattoos</h2>
+
     <div class="flash-section">
         <div class="flash-header">
-            <h3></h3> <!-- Du kan ha noe her om du vil -->
-            <a href="/Gallery/Flashes">Se alle →</a>
+            <h3>Flash til salgs</h3>
         </div>
 
         <div class="flash-scroll">
@@ -25,20 +25,26 @@
                 <a asp-controller="Gallery"
                    asp-action="Details"
                    asp-route-id="@flash.Id">
-                    <img src="~/Images/flash/@flash.ImagePath" alt="@flash.Title" />
+
+                    <img src="@flash.ImagePath" alt="@flash.Title" />
                 </a>
             }
         </div>
     </div>
 
 
-    <!-- Ferdige motiver -->
+    <!-- TIDLIGERE MOTIVER -->
+    <h2 class="mt-4">Tidligere motiver</h2>
+
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => !m.IsFlash))
         {
-            <div class="gallery-item">
-                <img src="/Images/Gallery/@item.ImagePath" alt="@item.Title" />
-            </div>
+            <a asp-controller="Gallery"
+               asp-action="Details"
+               asp-route-id="@item.Id"
+               class="gallery-item no-title">
+                <img src="@item.ImagePath" alt="@item.Title" />
+            </a>
         }
     </div>
 </section>

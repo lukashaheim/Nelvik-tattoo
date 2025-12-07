@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+
+@{
+    ViewData["Title"] = "Galleri – Administrasjon";
+}
+
+<h2 class="mb-4">Administrer motiver</h2>
+
+<a class="btn btn-primary mb-3" asp-controller="GalleryAdmin" asp-action="Create">
+    ➕ Legg til nytt motiv
+</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Bilde</th>
+        <th>Tittel</th>
+        <th>Type</th>  <!-- Flash eller Tidligere motiv -->
+        <th>Pris</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var design in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(design.ImagePath))
+                {
+                    <img src="@design.ImagePath" 
+                         style="height:80px; width:auto; border-radius:5px;" />
+                }
+            </td>
+
+            <td>@design.Title</td>
+
+            <td>
+                @(design.IsFlash ? "Flash (til salgs)" : "Tidligere motiv")
+            </td>
+
+            <td>
+                @if (design.IsFlash)
+                {
+                    @($"{design.Price} kr")
+                }
+                else
+                {
+                    <span>-</span> <!-- ferdige motiver har ingen pris -->
+                }
+            </td>
+
+            <td>
+                <a class="btn btn-sm btn-warning" 
+                   asp-controller="GalleryAdmin" 
+                   asp-action="Edit" 
+                   asp-route-id="@design.Id">Rediger</a>
+
+                <a class="btn btn-sm btn-danger" 
+                   asp-controller="GalleryAdmin" 
+                   asp-action="Delete" 
+                   asp-route-id="@design.Id">Slett</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

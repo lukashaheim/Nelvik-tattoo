@@ -1,16 +1,16 @@
-﻿@model Nelvik_Tattoo.Models.FlashDesign
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
 
 @{
-    ViewData["Title"] = "Legg til nytt flashmotiv";
+    ViewData["Title"] = "Legg til nytt motiv";
 }
 
-<h2 class="mb-4">Legg til nytt flashmotiv</h2>
+<h2 class="mb-4">Legg til nytt motiv</h2>
 
 <form asp-action="Create" method="post" enctype="multipart/form-data">
+    
     <div class="mb-3">
         <label asp-for="Title" class="form-label"></label>
         <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -19,15 +19,21 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
+        <label asp-for="IsFlash" class="form-label">Er dette et flashmotiv?</label>
+        <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
+        <div class="form-text">Flash = til salgs, ubocket = tidligere motiv.</div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Pris (kun for flash)</label>
         <input asp-for="Price" type="number" step="50" class="form-control" />
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Bilde</label>
+        <label class="form-label">Last opp bilde</label>
         <input type="file" name="imageFile" class="form-control" />
     </div>
 
     <button class="btn btn-success" type="submit">💾 Lagre</button>
-    <a class="btn btn-secondary" href="/FlashAdmin">Avbryt</a>
+    <a class="btn btn-secondary" href="/GalleryAdmin">Avbryt</a>
 </form>
