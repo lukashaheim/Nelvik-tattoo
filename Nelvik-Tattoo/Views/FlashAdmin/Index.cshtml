@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.FlashDesign>
+
+@{
+    ViewData["Title"] = "Flash Admin";
+}
+
+<h2 class="mb-4">Administrer Flash-motiver</h2>
+
+<a class="btn btn-primary mb-3" href="/FlashAdmin/Create">➕ Legg til nytt motiv</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Bilde</th>
+        <th>Tittel</th>
+        <th>Pris</th>
+        <th>Tilgjengelig</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var flash in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(flash.ImagePath))
+                {
+                    <img src="@flash.ImagePath" style="height:80px; width:auto; border-radius:5px;" />
+                }
+            </td>
+            <td>@flash.Title</td>
+            <td>@flash.Price kr</td>
+            <td>@(flash.IsAvailable ? "Ja" : "Nei")</td>
+            <td>
+                <a class="btn btn-sm btn-warning" href="/FlashAdmin/Edit/@flash.Id">Rediger</a>
+                <a class="btn btn-sm btn-danger" href="/FlashAdmin/Delete/@flash.Id">Slett</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -15,4 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<GalleryDesign> GalleryDesigns { get; set; }
+    
+    public DbSet<FlashDesign> FlashDesigns => Set<FlashDesign>();
+
 }

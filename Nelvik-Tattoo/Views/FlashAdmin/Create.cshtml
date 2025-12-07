@@ -1,0 +1,33 @@
+﻿@model Nelvik_Tattoo.Models.FlashDesign
+
+@{
+    ViewData["Title"] = "Legg til nytt flashmotiv";
+}
+
+<h2 class="mb-4">Legg til nytt flashmotiv</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" type="number" step="50" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Bilde</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <button class="btn btn-success" type="submit">💾 Lagre</button>
+    <a class="btn btn-secondary" href="/FlashAdmin">Avbryt</a>
+</form>

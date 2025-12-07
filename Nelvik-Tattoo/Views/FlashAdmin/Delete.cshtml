@@ -1,0 +1,25 @@
+﻿@model Nelvik_Tattoo.Models.FlashDesign
+
+@{
+    ViewData["Title"] = "Slett flashmotiv";
+}
+
+<h2 class="text-danger mb-4">Slett Flashmotiv</h2>
+
+<p>Er du sikker på at du vil slette dette motivet?</p>
+
+<div class="mb-3">
+    <strong>@Model.Title</strong><br />
+
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" style="height:170px; border-radius:8px; margin-top:10px;" />
+    }
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button class="btn btn-danger" type="submit">🗑 Slett</button>
+    <a class="btn btn-secondary" href="/FlashAdmin">Avbryt</a>
+</form>
