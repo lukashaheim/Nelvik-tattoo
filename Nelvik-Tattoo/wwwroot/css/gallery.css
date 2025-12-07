@@ -1,3 +1,7 @@
+:root {
+    --flash-size: 450px;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -18,72 +22,41 @@ img {
     margin-bottom: 1.5rem;
 }
 
-/* 3 bilder per rad */
+/* Galleri – 3 bilder per rad */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 0.25rem;
-    min-height: 300px; /* ← nytt */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    min-height: 300px;
 }
 
-
-.gallery-grid img {
+.gallery-img {
     width: 100%;
-    aspect-ratio: 3 / 4;   /* eller 1 / 1 for kvadratisk */
-    object-fit: cover;     /* fyller ruten uten å forvrenge bildet */
-    display: block;
-    border-radius: 0;      /* ← gjør kantene rette */
-}
-
-.gallery-item {
-    display: block;
-    width: 100%;
-}
-
-
-/* --- Flash stripe --- */
-.flash-section {
-    margin-top: 3rem;
-    width: 100%;              /* vanlig 100%, ikke 100vw */
-    background: #fff;
-    overflow: hidden;         /* hindrer at noe stikker ut */
-}
-
-.flash-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 auto;
-    max-width: 1200px;          /* sentrer innholdet */
-    padding: 0 1rem;
-}
-
-.flash-scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 1rem;
-    scrollbar-width: none;
-}
-.flash-scroll::-webkit-scrollbar {
-    display: none;
-}
-
-
-.flash-scroll img {
-    flex: 0 0 auto;
-    width: 420px;               /* større bredde */
-    height: 420px;              /* høyere bilder */
+    max-height: 250px;
     object-fit: cover;
-    scroll-snap-align: start;
-    border-radius: 0;
+    display: block;
+    aspect-ratio: 3 / 4;
+}
+
+.gallery-img:hover {
+    transform: scale(1.02);
+}
+/* Gallery grid med 3 per rad */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.gallery-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
     display: block;
 }
 
-
-/* Flash-side (grid + bildeformat) */
+/* Flash-grid-visning (på flash-siden) */
 .flash-page .flash-grid {
     display: grid;
     gap: 0.5rem;
@@ -91,16 +64,79 @@ img {
 }
 
 @media (max-width: 1024px) {
-    .flash-page .flash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .flash-page .flash-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
+
 @media (max-width: 640px) {
-    .flash-page .flash-grid { grid-template-columns: 1fr; }
+    .flash-page .flash-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .flash-page .flash-grid img {
     width: 100%;
-    aspect-ratio: 3 / 4;   /* eller bruk height: 350px; */
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     display: block;
-    border-radius: 0;
+    border-radius: 4px;
 }
+
+/* --- Flash stripe --- */
+/* --- FLASH STRIPE (fikset versjon) --- */
+.flash-section {
+    margin-bottom: 1rem;
+}
+
+.flash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flash-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* FLASH STRIPE – endelig fix */
+
+/* Selve stripen */
+.flash-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    height: 470px;
+    padding-bottom: 1rem;
+}
+
+/* Hvert element i stripen er LENKEN (<a>) */
+.flash-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    height: calc(var(--flash-size) + 20px); /* stripe = litt høyere enn bildet */
+    padding-bottom: 1rem;
+}
+
+.flash-scroll a {
+    flex: 0 0 auto;
+    width: var(--flash-size);
+    height: var(--flash-size);
+    display: block;
+}
+
+.flash-scroll a img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+

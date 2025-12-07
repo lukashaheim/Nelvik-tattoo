@@ -1,7 +1,7 @@
 @model IEnumerable<GalleryDesign>
 
 @{
-    ViewData["Title"] = "Gallery";
+    ViewData["Title"] = "Alle motiver";
 }
 
 @section Styles {
@@ -11,40 +11,34 @@
 <section class="gallery-page container">
     <h1>@ViewData["Title"]</h1>
 
+    <!-- Flash-ruten (stripe) -->
+    <h2>Tilgjengelige flash tattoos</h2>
+    <div class="flash-section">
+        <div class="flash-header">
+            <h3></h3> <!-- Du kan ha noe her om du vil -->
+            <a href="/Gallery/Flashes">Se alle →</a>
+        </div>
+
+        <div class="flash-scroll">
+            @foreach (var flash in Model.Where(m => m.IsFlash))
+            {
+                <a asp-controller="Gallery"
+                   asp-action="Details"
+                   asp-route-id="@flash.Id">
+                    <img src="~/Images/flash/@flash.ImagePath" alt="@flash.Title" />
+                </a>
+            }
+        </div>
+    </div>
+
+
+    <!-- Ferdige motiver -->
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => !m.IsFlash))
         {
-            <a asp-controller="Gallery"
-               asp-action="Details"
-               asp-route-id="@item.Id"
-               class="gallery-item">
-
-                <img src="@item.ImagePath"
-                     alt="@item.Title"
-                     class="gallery-img" />
-            </a>
-        }
-    </div>
-</section>
-
-<section class="flash-section">
-    <div class="flash-header">
-        <h2>Flash tattoos</h2>
-        <a asp-controller="Gallery"
-           asp-action="Flashes"
-           class="flash-link">View flash tattoos →</a>
-    </div>
-
-    <div class="flash-scroll">
-        @foreach (var item in Model.Where(m => m.IsFlash))
-        {
-            <a asp-controller="Gallery"
-               asp-action="Details"
-               asp-route-id="@item.Id">
-                <img src="@item.ImagePath"
-                     alt="@item.Title"
-                     class="flash-img" />
-            </a>
+            <div class="gallery-item">
+                <img src="/Images/Gallery/@item.ImagePath" alt="@item.Title" />
+            </div>
         }
     </div>
 </section>

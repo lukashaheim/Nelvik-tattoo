@@ -21,4 +21,10 @@
       <_ContentIncludedByDefault Remove="Booking\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="wwwroot\Images\flash\image2.jpeg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
