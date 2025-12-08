@@ -76,9 +76,5 @@ app.MapRazorPages()
 app.MapGet("/Identity/Account/Register", () => Results.NotFound());
 app.MapPost("/Identity/Account/Register", () => Results.NotFound());
 
-// Blokker direkte tilgang til den gamle login-adressen
-app.MapGet("/Identity/Account/Login", () => Results.NotFound());
-app.MapPost("/Identity/Account/Login", () => Results.NotFound());
-
 
 app.Run();
