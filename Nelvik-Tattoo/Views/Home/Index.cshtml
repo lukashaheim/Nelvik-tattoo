@@ -13,3 +13,13 @@
         </div>
     </div>
 }
+
+@section Styles {
+    <style>
+    .hero-section {
+        background-image: url('@Url.Content("~/Images/forside/forside_1.jpg")');
+    }
+  </style>
+}
+
+<a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-primary">Book time</a>

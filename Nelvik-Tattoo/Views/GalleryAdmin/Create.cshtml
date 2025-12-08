@@ -1,0 +1,38 @@
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
+
+@{
+    ViewData["Title"] = "Legg til nytt motiv";
+}
+
+<h2>Legg til nytt motiv</h2>
+
+<form method="post" enctype="multipart/form-data" asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IsFlash" class="form-label"></label>
+        <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
+        <small class="form-text">Flash = til salgs. Finished = tidligere motiv.</small>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" type="number" step="50" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Last opp bilde</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <button class="btn btn-success" type="submit">➕ Legg til</button>
+    <a class="btn btn-secondary" href="/theking/gallery">Avbryt</a>
+</form>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+
+@{
+    ViewData["Title"] = "Administrer Galleri";
+}
+
+<h2 class="mb-4">Galleri – Admin</h2>
+
+<a class="btn btn-primary mb-3" href="/theking/gallery/create">➕ Legg til nytt motiv</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Bilde</th>
+        <th>Tittel</th>
+        <th>Type</th>
+        <th>Pris</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImagePath))
+                {
+                    <img src="@item.ImagePath" style="height:80px; border-radius:5px;" />
+                }
+            </td>
+            <td>@item.Title</td>
+            <td>@(item.IsFlash ? "Flash" : "Finished")</td>
+            <td>@(item.IsFlash ? $"{item.Price} kr" : "-")</td>
+
+            <td>
+                <a class="btn btn-sm btn-warning" href="/theking/gallery/edit/@item.Id">Rediger</a>
+                <a class="btn btn-sm btn-danger" href="/theking/gallery/delete/@item.Id">Slett</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
