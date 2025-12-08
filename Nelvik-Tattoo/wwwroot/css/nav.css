@@ -1,10 +1,8 @@
-﻿/* --- Spacing between items (small + clean) --- */
-.custom-navbar .navbar-nav {
-    margin-left: auto !important;      /* push links to the right */
-    gap: 2rem;                         /* space between items */
+﻿.custom-navbar .navbar-nav {
+    margin-left: auto !important;      
+    gap: 2rem;
 }
 
-/* --- Link + brand font styling --- */
 .custom-navbar a,
 .custom-navbar .navbar-brand,
 .custom-navbar .nav-link {
@@ -24,13 +22,7 @@
     left: 0;
     right: 0;
     z-index: 1000;
-
-
-    /*background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.7) 95%,
-            rgba(0, 0, 0, 0) 100% 
-    ) !important;*/
+    
     background: rgba(0, 0, 0, 0.8);
 }
 
