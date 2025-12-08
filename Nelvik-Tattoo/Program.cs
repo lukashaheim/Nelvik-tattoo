@@ -15,10 +15,30 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        // Alias: /MyPlace peker til Identity sin login-side
+        options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/MyPlace");
+    });
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/MyPlace";
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OwnerOnly", policy =>
+        policy.RequireAssertion(ctx =>
+            ctx.User?.Identity?.IsAuthenticated == true &&
+            ctx.User.Identity!.Name == "owner@nelviktattoo.no")); // <- eier-epost
+});
+
 var app = builder.Build();
 
-// Call the database initializer
-using (var services = app.Services.CreateScope())
+await OwnerUserSeeder.SeedAsync(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,16 +48,21 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "faq",
+    pattern: "Faq",
+    defaults: new { controller = "Home", action = "Faq" });
 
 app.MapControllerRoute(
         name: "default",
@@ -46,5 +71,14 @@ app.MapControllerRoute(
 
 app.MapRazorPages()
     .WithStaticAssets();
+
+// blokker direkte tilgang til register-siden
+app.MapGet("/Identity/Account/Register", () => Results.NotFound());
+app.MapPost("/Identity/Account/Register", () => Results.NotFound());
+
+// Blokker direkte tilgang til den gamle login-adressen
+app.MapGet("/Identity/Account/Login", () => Results.NotFound());
+app.MapPost("/Identity/Account/Login", () => Results.NotFound());
+
 
 app.Run();
