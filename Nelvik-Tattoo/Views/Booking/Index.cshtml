@@ -52,7 +52,7 @@
         <fieldset class="panel locked" id="p6">
             <legend>6. Preferred Date / Time</legend>
             <label for="date">Date</label>
-            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}"/>
+            <input id="date" asp-for="SelectedDate" class="form-control" type="date" asp-format="{0:yyyy-MM-dd}" />
             <div style="display:flex; gap:10px; margin-top:10px">
                 <div style="flex:1">
                     <label for="timeStart">From</label>
@@ -77,13 +77,14 @@
             <div class="row">
             <label>Preferred contact method</label>
             <label>
-                <input id="emailCM" type="radio" name="contactMethod" value="email" required>
+                <input id="emailCM" type="radio" name="PrefferedCM" value="1" required>
                 Email
             </label>
             <label>
-                <input id="phoneCM" type="radio" name="contactMethod" value="phone">
+                <input id="phoneCM" type="radio" name="PrefferedCM" value="2">
                 SMS
             </label>
+
             </div>
         </fieldset>
         <!-- Comment -->
@@ -108,12 +109,12 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     // Pickers
-    flatpickr("#date",{
-        dateFormat:"d-m-Y",
-        defaultDate:"today",
-        minDate:"today",
-        maxDate:new Date().fp_incr(61)}
-    );
+    flatpickr("#date", {
+        dateFormat: "Y-m-d",
+        defaultDate: "today",
+        minDate: "today",
+        maxDate: new Date().fp_incr(61)
+    });
     const timeStartPicker = flatpickr("#timeStart",{
         enableTime:true,
         noCalendar:true,
@@ -160,7 +161,7 @@
     }
     function ValidateContactMethod(n){
         if(n===7){
-            const chosen = document.querySelector('input[name="contactMethod"]:checked');
+            const chosen = document.querySelector('input[name="PrefferedCM"]:checked');
             if(!chosen){ alert('Choose preferred contact method'); return false; }
         }
         return true;

@@ -25,4 +25,8 @@
       <_ContentIncludedByDefault Remove="Booking\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\Images\Booking\Uploads\" />
+    </ItemGroup>
+
 </Project>
