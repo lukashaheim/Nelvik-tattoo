@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.FaqItem>
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/faq.css" asp-append-version="true" />
+}
+
+@section FullWidth {
+    <div class="faq-bg">
+        <div class="container faq-container">
+            <div class="row align-items-start">
+                <div class="col text-column">
+                    <h1>FAQ</h1>
+
+                    @if (!Model.Any())
+                    {
+                        <p>Ingen spørsmål er publisert ennå.</p>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <h5>@item.Question</h5>
+                            <div class="faq-answer">@Html.Raw(item.Answer)</div>
+                        }
+                    }
+                </div>
+
+                <div class="col-auto image-column">
+                    <div class="image-container">
+                        <img src="~/Images/Faq.jpg" id="faqImg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.FaqItem>
+@{
+    ViewData["Title"] = "FAQ (Admin)";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/faq.css" asp-append-version="true" />
+}
+
+<div class="faq-bg">
+    <div class="container faq-container">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="m-0"> </h1>
+            <a href="/theking/faq/create" class="btn btn-dark">Ny FAQ-post</a>
+        </div>
+
+        <div class="row align-items-start">
+            <div class="col text-column">
+                <h1>FAQ</h1>
+
+                @if (!Model.Any())
+                {
+                    <p>Ingen spørsmål er publisert ennå.</p>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <h5>@item.Question</h5>
+                        <div class="faq-answer">@Html.Raw(item.Answer)</div>
+                        <div class="mt-2">
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Slette denne FAQ-posten?');">
+                                    Slett
+                                </button>
+                            </form>
+                        </div>
+
+                    }
+                }
+            </div>
+
+            <div class="col-auto image-column">
+                <div class="image-container">
+                    <img src="~/Images/Faq.jpg" id="faqImg" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
