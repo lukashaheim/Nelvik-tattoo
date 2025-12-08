@@ -10,7 +10,7 @@ namespace Nelvik_Tattoo.Data
     {
         // Her definerer vi eier-brukeren
         private const string OwnerEmail = "owner@nelviktattoo.no";
-        private const string OwnerPassword = "Owner!234"; // Bytt til noe sikkert
+        private const string OwnerPassword = "Owner!234";
 
         public static async Task SeedAsync(IServiceProvider services)
         {
