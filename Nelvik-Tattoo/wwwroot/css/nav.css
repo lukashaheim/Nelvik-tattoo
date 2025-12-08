@@ -19,7 +19,7 @@
 }
 
 .custom-navbar {
-    position: fixed;      
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -46,7 +46,7 @@
 
 .custom-navbar .btn {
     margin-top: 2px;
-    
+
 }
 .custom-navbar .btn a {
     padding: 6px !important;
