@@ -4,10 +4,9 @@
     ViewData["Title"] = "Legg til nytt motiv";
 }
 
-<h2 class="mb-4">Legg til nytt motiv</h2>
+<h2>Legg til nytt motiv</h2>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    
+<form method="post" enctype="multipart/form-data" asp-action="Create">
     <div class="mb-3">
         <label asp-for="Title" class="form-label"></label>
         <input asp-for="Title" class="form-control" />
@@ -19,13 +18,13 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="IsFlash" class="form-label">Er dette et flashmotiv?</label>
+        <label asp-for="IsFlash" class="form-label"></label>
         <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
-        <div class="form-text">Flash = til salgs, ubocket = tidligere motiv.</div>
+        <small class="form-text">Flash = til salgs. Finished = tidligere motiv.</small>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Price" class="form-label">Pris (kun for flash)</label>
+        <label asp-for="Price" class="form-label"></label>
         <input asp-for="Price" type="number" step="50" class="form-control" />
     </div>
 
@@ -34,6 +33,6 @@
         <input type="file" name="imageFile" class="form-control" />
     </div>
 
-    <button class="btn btn-success" type="submit">💾 Lagre</button>
-    <a class="btn btn-secondary" href="/GalleryAdmin">Avbryt</a>
+    <button class="btn btn-success" type="submit">➕ Legg til</button>
+    <a class="btn btn-secondary" href="/theking/gallery">Avbryt</a>
 </form>

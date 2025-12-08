@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nelvik_Tattoo.Data;
 using Nelvik_Tattoo.Models;
 
 namespace Nelvik_Tattoo.Controllers
 {
+    [Authorize]
+    [Route("theking/gallery")]
     public class GalleryAdminController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -15,7 +18,8 @@ namespace Nelvik_Tattoo.Controllers
             _env = env;
         }
 
-        // LISTE OVER ALLE MOTIVER
+        // GET: /theking/gallery
+        [HttpGet("")]
         public IActionResult Index()
         {
             var designs = _db.GalleryDesigns
@@ -25,14 +29,15 @@ namespace Nelvik_Tattoo.Controllers
             return View(designs);
         }
 
-        // GET: Create
+        // GET: /theking/gallery/create
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Create
-        [HttpPost]
+        // POST: /theking/gallery/create
+        [HttpPost("create")]
         public IActionResult Create(GalleryDesign design, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
@@ -40,30 +45,30 @@ namespace Nelvik_Tattoo.Controllers
 
             if (imageFile != null)
             {
-                // Velg riktig undermappe basert på IsFlash
-                var folder = design.IsFlash
+                string folder = design.IsFlash
                     ? "Images/Gallery/Flash"
                     : "Images/Gallery/Finished";
 
-                var folderPath = Path.Combine(_env.WebRootPath, folder);
+                string folderPath = Path.Combine(_env.WebRootPath, folder);
                 Directory.CreateDirectory(folderPath);
 
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
-                var filePath = Path.Combine(folderPath, fileName);
+                string fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string filePath = Path.Combine(folderPath, fileName);
 
                 using var stream = new FileStream(filePath, FileMode.Create);
                 imageFile.CopyTo(stream);
 
                 design.ImagePath = "/" + folder + "/" + fileName;
             }
-            
+
             _db.GalleryDesigns.Add(design);
             _db.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Edit
+        // GET: /theking/gallery/edit/5
+        [HttpGet("edit/{id}")]
         public IActionResult Edit(int id)
         {
             var design = _db.GalleryDesigns.Find(id);
@@ -73,39 +78,41 @@ namespace Nelvik_Tattoo.Controllers
             return View(design);
         }
 
-        // POST: Edit
-        [HttpPost]
-        public IActionResult Edit(GalleryDesign model, IFormFile? imageFile)
+        // POST: /theking/gallery/edit/5
+        [HttpPost("edit/{id}")]
+        public IActionResult Edit(int id, GalleryDesign model, IFormFile? imageFile)
         {
-            var design = _db.GalleryDesigns.Find(model.Id);
+            var design = _db.GalleryDesigns.Find(id);
             if (design == null)
                 return NotFound();
 
+            // Oppdater felter
             design.Title = model.Title;
             design.Description = model.Description;
             design.Price = model.Price;
             design.IsFlash = model.IsFlash;
 
+            // Nytt bilde lastet opp?
             if (imageFile != null)
             {
-                // (valgfritt) Slett gammelt bilde
+                // Slett gammel fil hvis den finnes
                 if (!string.IsNullOrEmpty(design.ImagePath))
                 {
-                    var oldFile = Path.Combine(_env.WebRootPath, design.ImagePath.TrimStart('/'));
+                    string oldFile = Path.Combine(_env.WebRootPath, design.ImagePath.TrimStart('/'));
                     if (System.IO.File.Exists(oldFile))
                         System.IO.File.Delete(oldFile);
                 }
 
-                // Velg riktig undermappe basert på IsFlash etter redigering
-                var folder = model.IsFlash
+                // Velg riktig mappe
+                string folder = model.IsFlash
                     ? "Images/Gallery/Flash"
                     : "Images/Gallery/Finished";
 
-                var folderPath = Path.Combine(_env.WebRootPath, folder);
+                string folderPath = Path.Combine(_env.WebRootPath, folder);
                 Directory.CreateDirectory(folderPath);
 
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
-                var filePath = Path.Combine(folderPath, fileName);
+                string fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                string filePath = Path.Combine(folderPath, fileName);
 
                 using var stream = new FileStream(filePath, FileMode.Create);
                 imageFile.CopyTo(stream);
@@ -113,12 +120,12 @@ namespace Nelvik_Tattoo.Controllers
                 design.ImagePath = "/" + folder + "/" + fileName;
             }
 
-
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Delete
+        // GET: /theking/gallery/delete/5
+        [HttpGet("delete/{id}")]
         public IActionResult Delete(int id)
         {
             var design = _db.GalleryDesigns.Find(id);
@@ -128,13 +135,22 @@ namespace Nelvik_Tattoo.Controllers
             return View(design);
         }
 
-        // POST: Delete
-        [HttpPost, ActionName("Delete")]
+        // POST: /theking/gallery/delete/5
+        [HttpPost("delete/{id}")]
+        [ActionName("DeleteConfirmed")]
         public IActionResult DeleteConfirmed(int id)
         {
             var design = _db.GalleryDesigns.Find(id);
             if (design == null)
                 return NotFound();
+
+            // Slett bilde fra disk
+            if (!string.IsNullOrEmpty(design.ImagePath))
+            {
+                string oldFile = Path.Combine(_env.WebRootPath, design.ImagePath.TrimStart('/'));
+                if (System.IO.File.Exists(oldFile))
+                    System.IO.File.Delete(oldFile);
+            }
 
             _db.GalleryDesigns.Remove(design);
             _db.SaveChanges();
