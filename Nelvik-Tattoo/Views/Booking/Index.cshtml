@@ -23,24 +23,25 @@
         <fieldset class="panel locked" id="p3">
             <legend>3. Size</legend>
             <div class="size-grid">
-                <input type="radio" class="btn-check" name="Size" id="small" value="Small" autocomplete="off">
+                <input type="radio" class="btn-check" name="Size" id="small"  value="1">
                 <label class="btn size-choice" for="small">Small<br>5–10 cm</label>
 
-                <input type="radio" class="btn-check" name="Size" id="medium" value="Medium" autocomplete="off">
+                <input type="radio" class="btn-check" name="Size" id="medium" value="2">
                 <label class="btn size-choice" for="medium">Medium<br>10–20 cm</label>
 
-                <input type="radio" class="btn-check" name="Size" id="large" value="Large" autocomplete="off">
+                <input type="radio" class="btn-check" name="Size" id="large"  value="3">
                 <label class="btn size-choice" for="large">Large<br>20–30 cm</label>
 
-                <input type="radio" class="btn-check" name="Size" id="xl" value="Xl" autocomplete="off">
+                <input type="radio" class="btn-check" name="Size" id="xl"     value="4">
                 <label class="btn size-choice" for="xl">XL<br>Over 30 cm</label>
+
             </div>
         </fieldset>
         <!-- Image -->
         <fieldset class="panel locked" id="p4" disabled>
             <legend>4. Image</legend>
             <label for="Photo">Upload</label>
-            <input id="Photo" type="file" accept="image/*" class="form-control"/>
+            <input id="Photo" asp-for="Photo" type="file" accept="image/*" class="form-control" />
         </fieldset>
         <!-- Budget / Pricerange -->
         <fieldset class="panel locked" id="p5">
@@ -96,14 +97,14 @@
         </fieldset>
     </div>
 
-    <div class="actions">
-        <button type="button" id="prev" class="btn btn-secondary" disabled>Back</button>
-        <button type="button" id="next" class="btn btn-primary">Next</button>
-        <form asp-controller="Booking" asp-action="Confirmation" method="post">
-        <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
-        </form>
-
-    </div>
+    <form asp-controller="Booking" asp-action="Index" method="post" enctype="multipart/form-data">
+        ...
+        <div class="actions">
+            <button type="button" id="prev"  class="btn btn-secondary" disabled>Back</button>
+            <button type="button" id="next"  class="btn btn-primary">Next</button>
+            <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
+        </div>
+    </form>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
