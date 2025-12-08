@@ -45,19 +45,6 @@
     display: block;
 }
 
-
-#faqImg {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.faq-container {
-    padding: 50px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 .faq-container h1 {
     color: #8B0000;
 }
@@ -71,4 +58,3 @@ html, body {
     height: 100%;
     margin: 0;
 }
-
