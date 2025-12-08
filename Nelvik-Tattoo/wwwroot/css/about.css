@@ -1,5 +1,4 @@
-﻿/* Give equal space on left and right edges */
-.about-container {
+﻿.about-container {
     padding-left: 50px;
     padding-right: 50px;
     padding-top: 50px;
@@ -25,6 +24,7 @@
 /* Make text take remaining space */
 .text-column {
     flex: 1;
+    color: #ffffff;
 }
 
 /* Fixed image width + nice crop */
@@ -35,7 +35,6 @@
 .image-container {
     width: 350px;
     height: 400px;
-    /*aspect-ratio: 3 / 4;*/
     overflow: hidden;
     border-radius: 8px;
 }
@@ -46,7 +45,11 @@
     object-fit: cover;
     display: block;
 }
+
 .about-container .row {
     gap: 100px; /* increase this number for more space between text and image */
 }
-
+html, body {
+    height: 100%;
+    margin: 0;
+}

@@ -45,3 +45,62 @@ body {
   text-align:center; 
   text-shadow:0 2px 8px rgba(0,0,0,.5); 
 }
+
+.hero-section {
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* make it truly edge-to-edge */
+.hero-full {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+.hero-content {
+    color:#fff;
+    text-align:center;
+    text-shadow:0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* Make sure content isn't hidden behind the fixed navbar */
+body {
+    margin-bottom: 60px;   /* keep this from your original */
+    padding-top: 79px;     /* approximate navbar height */
+}
+
+/* Make body the positioning parent */
+body {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Blurred background image for ALL pages */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: url('/Images/Gallery/forside_1.jpg') center / cover no-repeat;
+    filter: blur(20px);
+    transform: scale(1.1); /* fjerner blurry kanter*/
+    z-index: -1;
+}
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: -1;
+}
+
