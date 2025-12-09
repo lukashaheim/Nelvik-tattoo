@@ -1,0 +1,28 @@
+﻿@model Nelvik_Tattoo.Models.AboutPage
+
+@{
+    ViewData["Title"] = "Admin – About";
+    Layout = "_Layout";
+}
+
+<div class="container about-container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="m-0">Admin – About page</h1>
+        <a href="/theking/about/edit" class="btn btn-dark">Edit about page</a>
+    </div>
+
+    <div class="row align-items-start">
+        <div class="col text-column">
+            <h2>@Model.Title</h2>
+            <p>@Model.Body</p>
+        </div>
+
+        <div class="col-auto image-column">
+            <div class="image-container">
+                <img src="@Model.ImagePath"
+                     id="aboutImg"
+                     alt="About image" />
+            </div>
+        </div>
+    </div>
+</div>

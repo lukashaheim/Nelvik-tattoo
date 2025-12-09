@@ -16,6 +16,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<GalleryDesign> GalleryDesigns { get; set; }
     public DbSet<FaqItem> FaqItems { get; set; }
-
+    public DbSet<AboutPage> AboutPages { get; set; }
 
 }
