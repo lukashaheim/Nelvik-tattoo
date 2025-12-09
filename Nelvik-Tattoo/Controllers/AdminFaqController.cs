@@ -33,14 +33,14 @@ namespace Nelvik_Tattoo.Controllers
 
         // GET /theking/faq/create
         [HttpGet("create")]
-        public IActionResult Create() => View();
+        public IActionResult Edit() => View("Edit");
 
         // POST /theking/faq/create
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Question,Answer,SortOrder")] FaqItem model)
+        public async Task<IActionResult> Edit([Bind("Question,Answer,SortOrder")] FaqItem model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return View("Edit");
 
             _db.FaqItems.Add(model);
             await _db.SaveChangesAsync();
