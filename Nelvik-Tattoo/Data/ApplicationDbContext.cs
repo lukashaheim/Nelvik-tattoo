@@ -14,4 +14,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Booking> Bookings => Set<Booking>();
     
     public DbSet<FaqItem> FaqItems { get; set; }
+    
+    public DbSet<AboutPage> AboutPages { get; set; }
+
 }
