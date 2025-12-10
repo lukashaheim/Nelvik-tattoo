@@ -2,14 +2,35 @@
     ViewData["Title"] = "Admin";
 }
 
-<h1>Admin</h1>
+@section Styles {
+    <style>
+        .admin_bg {
+            background-image: url('@Url.Content("~/Images/admin_bg.jpg")');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+    </style>
+}
 
-<form asp-area="Identity"
-      asp-page="/Account/Logout"
-      asp-route-returnUrl="/"
-      method="post"
-      class="mb-3">
-    <button type="submit" class="btn btn-dark">Logg ut</button>
-</form>
+<div class="admin-bg">
+    <div class="container">
+        <h1>Admin</h1>
 
-<p>Kun synlig for innlogget eier.</p>
+        <form asp-area="Identity"
+              asp-page="/Account/Logout"
+              asp-route-returnUrl="/"
+              method="post"
+              class="mb-3">
+            <button type="submit" class="btn btn-dark">Logg ut</button>
+        </form>
+
+        <p>Kun synlig for innlogget eier.</p>
+
+        <a asp-controller="AdminFaq" asp-action="Index" class="btn btn-primary">
+            FAQ-admin
+        </a>
+    </div>
+</div>
+
