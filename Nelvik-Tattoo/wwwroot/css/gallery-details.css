@@ -1,0 +1,33 @@
+﻿.details-wrapper {
+    max-width: 1300px;
+}
+
+.details-image {
+    border-radius: 4px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.details-info {
+    padding-left: 20px;
+}
+
+.details-title {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.details-description {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.details-price {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+}
+
+.details-btn {
+    padding: 12px 22px;
+    font-size: 1rem;
+}

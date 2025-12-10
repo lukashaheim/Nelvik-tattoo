@@ -1,0 +1,20 @@
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
+
+@{
+    ViewData["Title"] = "Slett motiv";
+}
+
+<h2>Slett motiv</h2>
+
+<p>Er du sikker på at du vil slette dette motivet?</p>
+
+<div class="mb-3">
+    <strong>@Model.Title</strong><br />
+    <img src="@Model.ImagePath" style="max-height:150px; border-radius:6px;" />
+    <p>@Model.Description</p>
+</div>
+
+<form method="post" asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+    <button class="btn btn-danger">🗑 Slett</button>
+    <a class="btn btn-secondary" href="/theking/gallery">Avbryt</a>
+</form>

@@ -1,4 +1,54 @@
+@model IEnumerable<GalleryDesign>
+
 @{
-    Layout = null;
+    ViewData["Title"] = "Galleri";
 }
-<img src="Images/Gallery/hei.jpg" alt="test bilde" width="400" />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/gallery.css" asp-append-version="true" />
+}
+
+<section class="gallery-page container">
+    <h1>@ViewData["Title"]</h1>
+
+    <!-- FLASH-STRIPE -->
+    <h2>Tilgjengelige flash tattoos</h2>
+
+    <div class="flash-section">
+        <div class="flash-header">
+            <h3>Flash til salgs</h3>
+        </div>
+
+        <div class="flash-scroll">
+            @foreach (var flash in Model.Where(m => m.IsFlash))
+            {
+                <a asp-controller="Gallery"
+                   asp-action="Details"
+                   asp-route-id="@flash.Id">
+
+                    <img src="@flash.ImagePath" alt="@flash.Title" />
+                </a>
+            }
+        </div>
+    </div>
+
+
+    <!-- TIDLIGERE MOTIVER -->
+    <h2 class="mt-4">Tidligere motiver</h2>
+
+    <div class="gallery-grid">
+        @foreach (var item in Model.Where(m => !m.IsFlash))
+        {
+            <a asp-controller="Gallery"
+               asp-action="Details"
+               asp-route-id="@item.Id"
+               class="gallery-item no-title">
+                <img src="@item.ImagePath" alt="@item.Title" />
+            </a>
+        }
+    </div>
+</section>
+
+@{
+    ViewData["Title"] = "Gallery";
+}
