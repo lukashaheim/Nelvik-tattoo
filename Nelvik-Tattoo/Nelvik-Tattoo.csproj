@@ -19,6 +19,7 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Booking\Confirmation.cshtml" />
       <_ContentIncludedByDefault Remove="Booking\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Flash\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

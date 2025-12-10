@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Admin – Forside";
-    Layout = "_LayoutAdmin";
 }
 
 <div class="container my-5">
@@ -20,7 +19,7 @@
     <div class="row g-3">
         @foreach (var design in Model.Where(d => d.IsFeatured))
         {
-            <div class="col-6 col-md-4 col-lg-2 text-center">
+            <div class="col-6 col-md-4 col-lg-3 text-center">
                 <a asp-controller="Gallery"
                    asp-action="Details"
                    asp-route-id="@design.Id"
@@ -51,22 +50,7 @@
         </div>
     </div>
     </section>
-    <section class="home-info-section mb-5">
-        <div class="row">
-            <div class="col-12 text-center">
-
-                <h2 class="info-heading mb-4">Kontakt & Åpningstider</h2>
-
-                <p class="info-line"><strong>Adresse:</strong> Dops gate 4, Oslo</p>
-                <p class="info-line"><strong>E-post:</strong> kontakt@@nelviktattoo.no</p>
-                <p class="info-line"><strong>Telefon:</strong> 400 00 000</p>
-                <p class="info-line"><strong>Åpningstider:</strong> Etter avtale</p>
-                <p class="info-line"><strong>Instagram:</strong> @@<a href="https://www.instagram.com/nelvik.tattoos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">nelvik.tattoos</a></p>
-
-            </div>
-        </div>
-    </section>
-
+    
 
     <section class="home-info-section mb-5">
         <div class="row">
@@ -74,14 +58,10 @@
                 <h2 class="info-heading mb-4">Kontaktinformasjon</h2>
 
                 <div class="info-item"><i class="bi bi-geo-alt-fill"></i> Dops gate 4, Oslo</div>
-                <div class="info-item"><i class="bi bi-envelope-fill"></i> kontakt@nelviktattoo.no</div>
-                <div class="info-item"><i class="bi bi-telephone-fill"></i> 400 00 000</div>
-                <div class="info-item"><i class="bi bi-clock-fill"></i> Etter avtale</div>
+                <div class="info-item"><i class="bi bi-envelope-fill"></i> <a href="mailto:nikolainelvik@gmail.com">nikolainelvik@gmail.com</a></div>
                 <div class="info-item"><i class="bi bi-instagram"></i> @@<a href="https://www.instagram.com/nelvik.tattoos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">nelvik.tattoos</a></div>
-
             </div>
         </div>
-
     </section>
 
 </div>
