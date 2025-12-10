@@ -3,6 +3,11 @@
     gap: 2rem;
 }
 
+.nav-logo {
+    height: 60px;
+    width: auto;
+}
+
 .custom-navbar a,
 .custom-navbar .navbar-brand,
 .custom-navbar .nav-link {
@@ -23,25 +28,12 @@
     right: 0;
     z-index: 1000;
 
-    /*background: #000000;
-    background: linear-gradient(180deg,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.67) 26%,
-        rgba(0, 0, 0, 0.57) 37%,
-        rgba(0, 0, 0, 0.49) 47%,
-        rgba(0, 0, 0, 0.4) 55%,
-        rgba(0, 0, 0, 0.29) 64%,
-        rgba(0, 0, 0, 0.21) 70%,
-        rgba(0, 0, 0, 0.13) 77%,
-        rgba(0, 0, 0, 0) 91%);
-*/
-
 }
 .custom-navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 1rem 2rem;
+    padding: .5rem 2rem;
 
     /* Dark + transparent + blurred */
     background: rgba(0, 0, 0, 0.3);
@@ -57,8 +49,6 @@
     text-shadow: 2px 2px 6px #000;
 }
 
-
-
 .custom-navbar .btn {
     margin-top: 2px;
     border-radius: 0 !important;
@@ -67,14 +57,14 @@
     padding: 6px !important;
 }
 .custom-navbar {
-    padding-top: 2rem;   /* py-4 = 1.5rem top + bottom */
-    padding-bottom: 2rem;
+    padding-top: 1.25rem;   /* py-4 = 1.5rem top + bottom */
+    padding-bottom: 1.25rem;
     transition: padding 0.5s ease;
 }
 
 .custom-navbar.scrolled {
-    padding-top: 1rem;    /* py-3 = 1rem top + bottom */
-    padding-bottom: 1rem;
+    padding-top: .5rem;    /* py-3 = 1rem top + bottom */
+    padding-bottom: .5rem;
 }
 
 /*
