@@ -29,7 +29,13 @@
                     {
                         <h5>@item.Question</h5>
                         <div class="faq-answer">@Html.Raw(item.Answer)</div>
+
                         <div class="mt-2">
+                            <a asp-action="Edit" asp-route-id="@item.Id"
+                               class="btn btn-sm btn-secondary me-2">
+                                Rediger
+                            </a>
+
                             <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-sm btn-danger"
@@ -38,8 +44,8 @@
                                 </button>
                             </form>
                         </div>
-
                     }
+
                 }
             </div>
             
