@@ -16,21 +16,6 @@
 
 /* =========== Kolonner =========== */
 .text-column { flex: 1; color: #fff; }
-.image-column { flex-shrink: 0; }
-
-.image-container {
-    width: 450px;
-    height: auto;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-#faqImg {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-}
 
 /* =========== Typografi =========== */
 .faq-container h1 { color: #8B0000; }
