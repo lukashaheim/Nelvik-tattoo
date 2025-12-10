@@ -28,7 +28,8 @@
     border:1px solid #555; 
     border-radius:12px; 
     padding:16px; 
-    position:relative; 
+    position:relative;
+    background-color: #ffffff;
 }
 .panel.locked { 
     opacity:.5;
