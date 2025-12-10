@@ -38,9 +38,12 @@ namespace Nelvik_Tattoo.Controllers
 // POST /theking/faq/create
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Question,Answer,SortOrder")] FaqItem model)
+        public async Task<IActionResult> Create([Bind("Question,Answer")] FaqItem model)
         {
             if (!ModelState.IsValid) return View(model);
+            
+            var maxSort = await _db.FaqItems.MaxAsync(f => (int?)f.SortOrder) ?? 0;
+            model.SortOrder = maxSort + 1;
 
             _db.FaqItems.Add(model);
             await _db.SaveChangesAsync();
@@ -56,22 +59,26 @@ namespace Nelvik_Tattoo.Controllers
 
             return View(item);   // bruker Edit.cshtml (lager vi etterpå)
         }
-
-// POST: theking/faq/edit/5
+        
+        
         [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Question,Answer,SortOrder")] FaqItem model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Question,Answer")] FaqItem model)
         {
             if (id != model.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(model);
 
-            if (!ModelState.IsValid)
-                return View(model);
+            var existing = await _db.FaqItems.FindAsync(id);
+            if (existing == null) return NotFound();
 
-            _db.Update(model);
+            existing.Question = model.Question;
+            existing.Answer = model.Answer;
+            existing.UpdatedAt = DateTime.UtcNow;
+
             await _db.SaveChangesAsync();
-
             return RedirectToAction(nameof(Index));
         }
+
 
 
         // GET /theking/faq/delete/5  (bekreftelsesside – kan hoppe rett til POST hvis du vil)
