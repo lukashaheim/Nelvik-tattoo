@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="wwwroot\Images\Booking\Uploads\" />
       <Content Update="wwwroot\Images\flash\image2.jpeg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
