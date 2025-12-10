@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Nelvik_Tattoo.Data;
 using Nelvik_Tattoo.Models;
 
@@ -19,16 +20,25 @@ namespace Nelvik_Tattoo.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        // --- HOME / INDEX ----------------------------------------------------
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var featuredDesigns = await _db.GalleryDesigns
+                .Where(g => g.IsFeatured)        // only show chosen photos
+                .OrderByDescending(g => g.Id)
+                .ToListAsync();
+
+            return View(featuredDesigns);
         }
 
+
+        // --- PRIVACY ---------------------------------------------------------
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // --- FAQ -------------------------------------------------------------
         public async Task<IActionResult> Faq()
         {
             var items = await _db.FaqItems
@@ -39,6 +49,7 @@ namespace Nelvik_Tattoo.Controllers
             return View(items);
         }
 
+        // --- ERROR -----------------------------------------------------------
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

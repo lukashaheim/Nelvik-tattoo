@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+
+@{
+    ViewData["Title"] = "Admin – Rediger forside";
+    Layout = "_LayoutAdmin";
+
+}
+
+<div class="container my-5">
+
+    <section class="mb-4 text-center">
+        <h1>Rediger forsiden</h1>
+        <p>Velg hvilke motiver som skal vises i «Utvalgte motiver» på forsiden.</p>
+    </section>
+
+    <form asp-action="Edit" method="post">
+        <section class="home-gallery-section mb-4">
+            <div class="row g-3">
+                @foreach (var design in Model)
+                {
+                    <div class="col-6 col-md-4 col-lg-2 text-center">
+
+                        <label class="select-image-wrapper">
+                            <!-- hidden checkbox -->
+                            <input type="checkbox"
+                                   name="featuredIds"
+                                   value="@design.Id"
+                                   @(design.IsFeatured ? "checked" : "") />
+
+                            <!-- clickable image -->
+                            <img src="@design.ImagePath"
+                                 alt="@design.Title"
+                                 class="img-fluid home-gallery-img" />
+
+                            <!-- checkmark overlay -->
+                            <div class="checkmark-overlay @(design.IsFeatured ? "active" : "")">
+                                <i class="bi bi-check-lg" style="color: #000;"></i>
+                            </div>
+                        </label>
+
+                    </div>
+
+                }
+            </div>
+        </section>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary book-btn">
+                Lagre endringer
+            </button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                Avbryt
+            </a>
+        </div>
+    </form>
+
+</div>

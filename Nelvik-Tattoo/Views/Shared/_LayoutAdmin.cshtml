@@ -11,18 +11,12 @@
     <link rel="stylesheet" href="~/css/about.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/gallery.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/gallery-details.css" asp-append-version="true" />
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Nelvik_Tattoo.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/gallery.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/about.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/faq.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    
+
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -38,20 +32,21 @@
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ms-auto gap-3">
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="HomeAdmin" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="About" asp-action="Index">About</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="AboutAdmin" asp-action="Index">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Gallery" asp-action="Index">Gallery</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="GalleryAdmin" asp-action="Index">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Faq">FAQ</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="AdminFaq" asp-action="Index">FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-outline-light">Book Now</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin Profile</a>
                     </li>
+                    
                 </ul>
             </div>
         </div>
