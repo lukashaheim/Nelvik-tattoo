@@ -1,47 +1,23 @@
 ﻿@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
 
 @{
-    ViewData["Title"] = "Home";
-    ViewData["BodyClass"] = "home-page";
-    Layout = "_Layout";
-
+    ViewData["Title"] = "Admin – Forside";
 }
 
-
-@section FullWidth {
-    <div class="container-fluid px-0">
-        <div class="hero-section">
-            <div class="hero-content">
-                
-            </div>
-        </div>
-    </div>
-}
-
-@section Styles {
-    <style>
-    .hero-section {
-        background-image: url('@Url.Content("~/Images/forside/forside_1.jpg")');
-    }
-  </style>
-}
 <div class="container my-5">
-
-<section class="home-gallery-section mb-5">
-
+    <section class="home-gallery-section mb-5">
+    
     <div class="row mb-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
             <h2 class="mb-0">Utvalgte motiver</h2>
-            <a asp-controller="Gallery"
-               asp-action="Index"
-               class="btn btn-outline-light">
-                Se hele galleriet
+            <a asp-action="Edit" class="btn btn-outline-light book-btn mt-3">
+                Edit Page
             </a>
         </div>
     </div>
-
+   
     <div class="row g-3">
-        @foreach (var design in Model)
+        @foreach (var design in Model.Where(d => d.IsFeatured))
         {
             <div class="col-6 col-md-4 col-lg-3 text-center">
                 <a asp-controller="Gallery"
@@ -55,14 +31,26 @@
                 </a>
             </div>
         }
+
+        @* Hvis ingen er valgt *@
+        @if (!Model.Any(d => d.IsFeatured))
+        {
+            <div class="col-12 text-center mt-3">
+                <p>Ingen motiver er valgt til forsiden ennå.</p>
+                <a asp-action="Edit" class="btn btn-outline-light">
+                    Velg motiver
+                </a>
+            </div>
+        }
     </div>
     
     <div class="row my-5">
         <div class="col-12 text-center">
-            <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-outline-light book-btn">Book Appointment</a>
+            <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-outline-light book-btn">See Appointments</a>
         </div>
     </div>
     </section>
+    
 
     <section class="home-info-section mb-5">
         <div class="row">
@@ -77,5 +65,3 @@
     </section>
 
 </div>
-
-

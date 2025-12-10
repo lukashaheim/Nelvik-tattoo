@@ -13,6 +13,9 @@
 
         // Kun for flash-design (valgfritt)
         public int? Price { get; set; }
+        
+        public bool IsFeatured { get; set; }
+
     }
 
 }

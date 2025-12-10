@@ -55,7 +55,6 @@ body {
     justify-content: center;
 }
 
-/* make it truly edge-to-edge */
 .hero-full {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -68,13 +67,11 @@ body {
 }
 
 
-/* Make sure content isn't hidden behind the fixed navbar */
 body {
     margin-bottom: 60px;   /* keep this from your original */
-    padding-top: 79px;     /* approximate navbar height */
+    padding-top: 109px;    /*  approximate navbar height */
 }
 
-/* Make body the positioning parent */
 body {
     position: relative;
     min-height: 100vh;
@@ -95,6 +92,7 @@ body::before {
     transform: scale(1.1); /* fjerner blurry kanter*/
     z-index: -1;
 }
+
 body::after {
     content: "";
     position: fixed;
@@ -104,3 +102,16 @@ body::after {
     z-index: -1;
 }
 
+.btn {
+    border-radius: 0 !important;
+}
+button:focus,
+ .btn:focus {
+     box-shadow: none !important;
+ }
+a, p, h1, h2, h3, h4, h5, h6, label {
+    color: #fff;
+}
+body .footer .container{
+    color: #fff;
+}
