@@ -31,28 +31,63 @@ namespace Nelvik_Tattoo.Controllers
             return View(items);
         }
 
-        // GET /theking/faq/create
+// GET /theking/faq/create
         [HttpGet("create")]
-        public IActionResult Edit() => View("Edit");
+        public IActionResult Create() => View();
 
-        // POST /theking/faq/create
+// POST /theking/faq/create
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Question,Answer,SortOrder")] FaqItem model)
+        public async Task<IActionResult> Create([Bind("Question,Answer")] FaqItem model)
         {
-            if (!ModelState.IsValid) return View("Edit");
+            if (!ModelState.IsValid) return View(model);
+            
+            var maxSort = await _db.FaqItems.MaxAsync(f => (int?)f.SortOrder) ?? 0;
+            model.SortOrder = maxSort + 1;
 
             _db.FaqItems.Add(model);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
+        // GET: theking/faq/edit/5
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var item = await _db.FaqItems.FindAsync(id);
+            if (item == null) return NotFound();
+
+            return View(item);   // bruker Edit.cshtml (lager vi etterpå)
+        }
+        
+        
+        [HttpPost("edit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Question,Answer")] FaqItem model)
+        {
+            if (id != model.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(model);
+
+            var existing = await _db.FaqItems.FindAsync(id);
+            if (existing == null) return NotFound();
+
+            existing.Question = model.Question;
+            existing.Answer = model.Answer;
+            existing.UpdatedAt = DateTime.UtcNow;
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
         // GET /theking/faq/delete/5  (bekreftelsesside – kan hoppe rett til POST hvis du vil)
         [HttpGet("delete/{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var item = await _db.FaqItems.FindAsync(id);
             if (item == null) return NotFound();
-            return View(item); // lager vi straks
+            return View(item);
         }
 // POST /theking/faq/delete/5
         [HttpPost("delete/{id:int}")]

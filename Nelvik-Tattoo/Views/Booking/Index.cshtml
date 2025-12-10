@@ -6,59 +6,116 @@
     <div class="progress-bar">
         <div class="progress-fill" id="progress"></div>
     </div>
-    <div class="wizard">
-        <!-- Første steg -->
-        <fieldset class="panel" id="p1">
-            <legend>1. Date and time</legend>
+    <div class="wizard booking-grid">
+        <!-- Design / Concept -->
+        <fieldset class="panel " id="p1">
+            <legend>1. Design / Concept</legend>
+            <textarea id="Design" name="Design" class="form-control" rows="6"
+                      placeholder="Example. I want a dragon"></textarea>
+        </fieldset>
+        <!-- Placement -->
+        <fieldset class="panel locked" id="p2">
+            <legend>2. Placement</legend>
+            <textarea id="Placement" name="Placement" class="form-control" rows="6"
+                      placeholder="Example. Forearm"></textarea>
+        </fieldset>
+        <!-- Size -->
+        <fieldset class="panel locked" id="p3">
+            <legend>3. Size</legend>
+            <div class="size-grid">
+                <input type="radio" class="btn-check" name="Size" id="small"  value="1">
+                <label class="btn size-choice" for="small">Small<br>5–10 cm</label>
+
+                <input type="radio" class="btn-check" name="Size" id="medium" value="2">
+                <label class="btn size-choice" for="medium">Medium<br>10–20 cm</label>
+
+                <input type="radio" class="btn-check" name="Size" id="large"  value="3">
+                <label class="btn size-choice" for="large">Large<br>20–30 cm</label>
+
+                <input type="radio" class="btn-check" name="Size" id="xl"     value="4">
+                <label class="btn size-choice" for="xl">XL<br>Over 30 cm</label>
+
+            </div>
+        </fieldset>
+        <!-- Image -->
+        <fieldset class="panel locked" id="p4" disabled>
+            <legend>4. Image</legend>
+            <label for="Photo">Upload</label>
+            <input id="Photo" asp-for="Photo" type="file" accept="image/*" class="form-control" />
+        </fieldset>
+        <!-- Budget / Pricerange -->
+        <fieldset class="panel locked" id="p5">
+            <legend>5. Budget / Pricerange</legend>
+            <textarea id="Budget" name="Budget" class="form-control" rows="6"
+                      placeholder="Example. 3000 - 6500 kr"></textarea>
+        </fieldset>
+        <!-- Date / Time -->
+        <fieldset class="panel locked" id="p6">
+            <legend>6. Preferred Date / Time</legend>
             <label for="date">Date</label>
-            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+            <input id="date" asp-for="SelectedDate" class="form-control" type="date" asp-format="{0:yyyy-MM-dd}" />
             <div style="display:flex; gap:10px; margin-top:10px">
                 <div style="flex:1">
                     <label for="timeStart">From</label>
-                    <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}"/>
                 </div>
                 <div style="flex:1">
                     <label for="timeEnd">To</label>
-                    <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}"/>
                 </div>
             </div>
         </fieldset>
+        <!-- Contact -->
+        <fieldset class="panel locked" id="p7">
+            <legend>7. Contact information</legend>
+            <div class="row">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required/>
+                <label for="phone">Phone number</label>
+                <input type="number" id="phone" name="phone" required/>
+            </div>
+            
+            <div class="row">
+            <label>Preferred contact method</label>
+            <label>
+                <input id="emailCM" type="radio" name="PrefferedCM" value="1" required>
+                Email
+            </label>
+            <label>
+                <input id="phoneCM" type="radio" name="PrefferedCM" value="2">
+                SMS
+            </label>
 
-        <!-- Andre steg -->
-        <fieldset class="panel locked" id="p2" disabled>
-            <legend>2. Image</legend>
-            <label for="Photo">Upload</label>
-            <input id="Photo" type="file" accept="image/*" class="form-control" />
+            </div>
         </fieldset>
-
-        <!-- Tredje steg -->
-        <fieldset class="panel locked" id="p3" disabled>
-            <legend>3. Details</legend>
-            <label for="Notes">Comments / placement / size</label>
-            <textarea id="Notes" name="Notes" class="form-control" rows="6"
-                      placeholder="Example. forearm, ca. 8x5 cm"></textarea>
+        <!-- Comment -->
+        <fieldset class="panel locked" id="p8" disabled>
+            <legend>8. Comment</legend>
+            <label for="Comment">Anything else we need to know?</label>
+            <textarea id="Comment" name="Comment" class="form-control" rows="6"
+                      placeholder="Example. Sensitive skin"></textarea>
         </fieldset>
     </div>
 
-    <div class="actions">
-        <button type="button" id="prev" class="btn btn-secondary" disabled>Back</button>
-        <button type="button" id="next" class="btn btn-primary">Next</button>
-        <form asp-controller="Booking" asp-action="Confirmation" method="post">
-        <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
-        </form>
-
-    </div>
+    <form asp-controller="Booking" asp-action="Index" method="post" enctype="multipart/form-data">
+        ...
+        <div class="actions">
+            <button type="button" id="prev"  class="btn btn-secondary" disabled>Back</button>
+            <button type="button" id="next"  class="btn btn-primary">Next</button>
+            <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
+        </div>
+    </form>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     // Pickers
-    flatpickr("#date",{
-        dateFormat:"d-m-Y",
-        defaultDate:"today",
-        minDate:"today",
-        maxDate:new Date().fp_incr(61)}
-    );
+    flatpickr("#date", {
+        dateFormat: "Y-m-d",
+        defaultDate: "today",
+        minDate: "today",
+        maxDate: new Date().fp_incr(61)
+    });
     const timeStartPicker = flatpickr("#timeStart",{
         enableTime:true,
         noCalendar:true,
@@ -78,7 +135,7 @@
     );
 
     // Paneler er alltid synlige; kun lås/åpne funksjon.
-    let step = 1, max = 3;
+    let step = 1, max = 8;
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
     const finishBtn = document.getElementById('finish');
@@ -94,12 +151,19 @@
         fs.classList.add('locked');
     }
     function validate(n){
-        if(n===1){
+        if(n===6){
             const d = document.getElementById('date').value;
             const a = document.getElementById('timeStart').value;
             const b = document.getElementById('timeEnd').value;
-            if(!d || !a || !b){ alert('Velg dato og tid.'); return false; }
-            if(a > b){ alert('Slutt-tid kan ikke være før start.'); return false; }
+            if(!d || !a || !b){ alert('Choose a date and time.'); return false; }
+            if(a > b){ alert('end time cannot be before start time.'); return false; }
+        }
+        return true;
+    }
+    function ValidateContactMethod(n){
+        if(n===7){
+            const chosen = document.querySelector('input[name="PrefferedCM"]:checked');
+            if(!chosen){ alert('Choose preferred contact method'); return false; }
         }
         return true;
     }
@@ -117,11 +181,13 @@
     prevBtn.onclick = () => {
         if(step>1) {
             step--;
+            lock(step+1)
             updateButtons();
             updateProgress();
         } 
     };
     nextBtn.onclick = () => {
+        if(!ValidateContactMethod(step)) return;
         if(!validate(step)) return;
         if(step < max){ 
             step++; 
@@ -130,7 +196,5 @@
             updateProgress();
         }
     };
-
-    // init: p1 åpen, p2/p3 låst
-    unlock(1); lock(2); lock(3); updateButtons(); updateProgress();
+     updateButtons(); updateProgress();
 </script>

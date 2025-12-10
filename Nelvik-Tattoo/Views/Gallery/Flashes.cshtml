@@ -12,10 +12,20 @@
     <h1>@ViewData["Title"]</h1>
 
     <p class="text-muted">Klikk på et flash-motiv for å se detaljer og bestille motiv.</p>
+
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => m.IsFlash))
         {
-            <img src="@item.ImagePath" alt="@item.Title" class="gallery-img" />
+            <a asp-controller="Gallery"
+               asp-action="Details"
+               asp-route-id="@item.Id"
+               class="gallery-item">
+
+                <img src="@item.ImagePath"
+                     alt="@item.Title"
+                     class="gallery-img" />
+
+            </a>
         }
     </div>
 </section>

@@ -28,14 +28,15 @@
     border:1px solid #555; 
     border-radius:12px; 
     padding:16px; 
-    position:relative; 
+    position:relative;
+    background-color: #ffffff;
 }
 .panel.locked { 
     opacity:.5;
     pointer-events:none;
 }
 .panel.locked::after{
-    content:"Låst"; 
+    content:"locked"; 
     position:absolute; 
     top:8px; 
     right:12px; 
@@ -99,4 +100,73 @@
     transition: width 0.4s ease;
 }
 
+.size-choice {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 4px;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.size-choice {
+    margin-bottom: 10px;
+}
+
+.btn-check:checked + .size-choice {
+    border-color: #000;
+    background: #fafafa;
+    font-weight: 600;
+}
+
+.size-choice:hover {
+    background: #f1f1f1;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 20px;
+}
+
+input[type="email"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #666;
+    /*background-color: #2b2b2b; */
+}
+
+input[type="email"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #4da3ff;
+    box-shadow: 0 0 4px #4da3ff;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+legend {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+textarea.form-control {
+    min-height: 40px;
+    max-height: 80px;
+    padding: 6px;
+    font-size: 0.9rem;
+    resize: vertical;
+}
 

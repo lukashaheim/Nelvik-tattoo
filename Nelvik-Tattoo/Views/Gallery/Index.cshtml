@@ -13,24 +13,22 @@
 
     <!-- FLASH-STRIPE -->
     <h2>Tilgjengelige flash tattoos</h2>
-
-    <div class="flash-section">
-        <div class="flash-header">
-            <h3>Flash til salgs</h3>
-        </div>
-
-        <div class="flash-scroll">
-            @foreach (var flash in Model.Where(m => m.IsFlash))
-            {
-                <a asp-controller="Gallery"
-                   asp-action="Details"
-                   asp-route-id="@flash.Id">
-
-                    <img src="@flash.ImagePath" alt="@flash.Title" />
-                </a>
-            }
-        </div>
+    <div class="flash-header">
+        <h3></h3>
+        <a href="/Gallery/Flashes">Se alle →</a>
     </div>
+
+    <div class="flash-scroll">
+        @foreach (var flash in Model.Where(m => m.IsFlash))
+        {
+            <a asp-controller="Gallery"
+               asp-action="Details"
+               asp-route-id="@flash.Id">
+                <img src="@flash.ImagePath" alt="@flash.Title" />
+            </a>
+        }
+    </div>
+
 
 
     <!-- TIDLIGERE MOTIVER -->
