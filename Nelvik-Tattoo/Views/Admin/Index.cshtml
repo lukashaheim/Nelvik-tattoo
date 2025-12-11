@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = "Hei Nikolai";
 
 }
 
@@ -19,7 +19,7 @@
 @section FullWidth {
     <div class="admin-bg">
         <div class="container">
-            <h1>Admin</h1>
+            <h1>Hei Nikolai</h1>
 
             <form asp-area="Identity"
                   asp-page="/Account/Logout"
@@ -29,11 +29,22 @@
                 <button type="submit" class="btn btn-dark">Logg ut</button>
             </form>
 
-            <p>Velkommen tilbake.</p>
+            <p>Hva vil du gjøre idag?</p>
 
-            <a asp-controller="AdminFaq" asp-action="Index" class="btn btn-primary">
-                FAQ-admin
-            </a>
+            <div class="admin-actions">
+                <a asp-controller="AdminFaq" asp-action="Index" class="admin-btn">
+                    Rediger FAQ
+                </a>
+
+                <a asp-controller="AboutAdmin" asp-action="Index" class="admin-btn">
+                    Rediger i About
+                </a>
+
+                <a asp-controller="GalleryAdmin" asp-action="Index" class="admin-btn">
+                    Rediger i Galleri
+                </a>
+            </div>
+            
         </div>
     </div>
 }
