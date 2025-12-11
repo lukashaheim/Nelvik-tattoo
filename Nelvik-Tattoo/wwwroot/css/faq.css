@@ -42,15 +42,7 @@
 .text-column p  { color: #fff; font-size: 1.1rem; line-height: 1.6; margin-bottom: .75rem; }
 .text-column .faq-answer { color: #fff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.25rem; }
 
-/* =========== FAQ-bakgrunn (full bredde, uten hvite kanter) =========== */
-.faq-bg {
-    background-image: url("../Images/faq-bkg.png"); /* samme bilde som før */
-    background-size: cover;           /* dekker hele flaten */
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    min-height: 100vh;                /* minst én skjermhøyde */
-}
+
 
 /* Unngå global bakgrunn som forstyrrer FAQ */
 html, body { height: 100%; margin: 0; }
