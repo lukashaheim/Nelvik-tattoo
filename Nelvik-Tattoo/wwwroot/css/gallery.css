@@ -4,7 +4,7 @@
 
 img {
     max-width: 100%;
-    height: auto;
+    max-height: auto;
     display: block;
     margin: 0 auto;
 }
@@ -12,7 +12,7 @@ img {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: .5rem;
 }
 
 /* Tittel */
@@ -75,16 +75,8 @@ img {
     }
 }
 
-.flash-page .flash-grid img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-    border-radius: 4px;
-}
 
 /* --- Flash stripe --- */
-/* --- FLASH STRIPE (fikset versjon) --- */
 .flash-section {
     margin-bottom: 1rem;
 }
@@ -195,4 +187,16 @@ img {
 
 .flash-arrow-right {
     right: 0.5rem;
+}
+.flash-page .gallery-grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.flash-page img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
 }
