@@ -17,14 +17,43 @@ namespace Nelvik_Tattoo.Controllers
         // -------------------------------------------
         // LISTE OVER ALLE MOTIVER (BLANDET)
         // -------------------------------------------
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? placement)
         {
-            var designs = await _context.GalleryDesigns
+            // Flashes: always shown, not filtered
+            var flashes = await _context.GalleryDesigns
+                .Where(d => d.IsFlash)
                 .OrderByDescending(d => d.Id)
                 .ToListAsync();
 
+            // Non-flash designs
+            var query = _context.GalleryDesigns
+                .Where(d => !d.IsFlash);
+
+            if (!string.IsNullOrWhiteSpace(placement))
+            {
+                query = query.Where(d => d.Placement == placement);
+            }
+
+            var designs = await query
+                .OrderByDescending(d => d.Id)
+                .ToListAsync();
+
+            var placements = await _context.GalleryDesigns
+                .Where(d => !d.IsFlash && !string.IsNullOrEmpty(d.Placement))
+                .Select(d => d.Placement!)
+                .Distinct()
+                .OrderBy(p => p)
+                .ToListAsync();
+
+            ViewBag.Flashes = flashes;
+            ViewBag.Placements = placements;
+            ViewBag.SelectedPlacement = placement;
+
+            // Model = only non-flash designs
             return View(designs);
         }
+
+
 
         // -------------------------------------------
         // KUN FLASH – Til salgs

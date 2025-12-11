@@ -1,11 +1,10 @@
 ﻿@model Nelvik_Tattoo.Models.GalleryDesign
 
 @{
-    ViewData["Title"] = "Rediger motiv";
-
+    ViewData["Title"] = "Edit design";
 }
 
-<h2>Rediger motiv</h2>
+<h2>Edit design</h2>
 
 <form method="post" enctype="multipart/form-data" asp-action="Edit" asp-route-id="@Model.Id">
     <input type="hidden" asp-for="Id" />
@@ -20,10 +19,36 @@
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="IsFlash"></label>
-        <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
+    <div class="form-group mb-3">
+        <label class="form-label d-block">Category</label>
+
+        <div class="form-check form-check-inline">
+            <input asp-for="IsFlash"
+                   class="form-check-input"
+                   id="isFlashCheckbox" />
+            <label class="form-check-label" for="isFlashCheckbox">
+                Flash
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input asp-for="IsFinished"
+                   class="form-check-input"
+                   id="isFinishedCheckbox" />
+            <label class="form-check-label" for="isFinishedCheckbox">
+                Earlier work
+            </label>
+        </div>
+
+        <span asp-validation-for="IsFlash" class="text-danger"></span>
+        <span asp-validation-for="IsFinished" class="text-danger"></span>
     </div>
+    <div class="form-group mb-3">
+        <label asp-for="Placement" class="form-label"></label>
+        <input asp-for="Placement" class="form-control" placeholder="e.g. arm, leg, back..." />
+        <span asp-validation-for="Placement" class="text-danger"></span>
+    </div>
+
 
     <div class="mb-3">
         <label asp-for="Price"></label>
@@ -31,15 +56,38 @@
     </div>
 
     <div class="mb-3">
-        <label>Nåværende bilde:</label><br />
+        <label>Current design image:</label><br />
         <img src="@Model.ImagePath" style="max-height:150px; border-radius:6px;" />
     </div>
 
     <div class="mb-3">
-        <label>Last opp nytt bilde (valgfritt):</label>
+        <label>Upload new design image (optional):</label>
         <input type="file" name="imageFile" class="form-control" />
     </div>
 
-    <button class="btn btn-primary" type="submit">💾 Lagre endringer</button>
-    <a class="btn btn-secondary" href="/theking/gallery">Avbryt</a>
+    <button class="btn btn-primary" type="submit">💾 Save Changes</button>
+    <a class="btn btn-secondary" href="/theking/gallery">Cancel</a>
 </form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        const flashCb = document.getElementById("isFlashCheckbox");
+        const earlierCb = document.getElementById("isEarlierWorkCheckbox");
+
+        function syncCategoryCheckboxes(changed) {
+            if (changed === "flash" && flashCb.checked) {
+                earlierCb.checked = false;
+            }
+            if (changed === "earlier" && earlierCb.checked) {
+                flashCb.checked = false;
+            }
+        }
+
+        if (flashCb && earlierCb) {
+            flashCb.addEventListener("change", () => syncCategoryCheckboxes("flash"));
+            earlierCb.addEventListener("change", () => syncCategoryCheckboxes("earlier"));
+        }
+    </script>
+}

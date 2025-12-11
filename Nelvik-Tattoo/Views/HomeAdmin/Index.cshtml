@@ -9,40 +9,24 @@
     
     <div class="row mb-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
-            <h2 class="mb-0">Utvalgte motiver</h2>
+            <h2 class="mb-0">Featured Designs</h2>
             <a asp-action="Edit" class="btn btn-outline-light book-btn mt-3">
-                Edit Page
+                Edit Featured Designs
             </a>
         </div>
     </div>
    
     <div class="row g-3">
-        @foreach (var design in Model.Where(d => d.IsFeatured))
+        @foreach (var design in Model)
         {
             <div class="col-6 col-md-4 col-lg-3 text-center">
-                <a asp-controller="Gallery"
-                   asp-action="Details"
-                   asp-route-id="@design.Id"
-                   class="home-gallery-thumb d-block">
-
-                    <img src="@design.ImagePath"
-                         alt="@design.Title"
-                         class="img-fluid home-gallery-img" />
-                </a>
-            </div>
-        }
-
-        @* Hvis ingen er valgt *@
-        @if (!Model.Any(d => d.IsFeatured))
-        {
-            <div class="col-12 text-center mt-3">
-                <p>Ingen motiver er valgt til forsiden ennå.</p>
-                <a asp-action="Edit" class="btn btn-outline-light">
-                    Velg motiver
-                </a>
+                <img src="@design.ImagePath"
+                     alt="@design.Title"
+                     class="img-fluid home-gallery-img" />
             </div>
         }
     </div>
+    
     
     <div class="row my-5">
         <div class="col-12 text-center">
@@ -55,7 +39,7 @@
     <section class="home-info-section mb-5">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="info-heading mb-4">Kontaktinformasjon</h2>
+                <h2 class="info-heading mb-4">Contact Information</h2>
 
                 <div class="info-item"><i class="bi bi-geo-alt-fill"></i> Dops gate 4, Oslo</div>
                 <div class="info-item"><i class="bi bi-envelope-fill"></i> <a href="mailto:nikolainelvik@gmail.com">nikolainelvik@gmail.com</a></div>

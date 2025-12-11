@@ -1,7 +1,8 @@
-@model IEnumerable<GalleryDesign>
+@using System.Globalization
+@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
 
 @{
-    ViewData["Title"] = "Galleri";
+    ViewData["Title"] = "Gallery";
 }
 
 @section Styles {
@@ -10,30 +11,81 @@
 
 <section class="gallery-page container">
     <h1>@ViewData["Title"]</h1>
+    
+    @{
+        var flashes = ViewBag.Flashes as IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+                      ?? Enumerable.Empty<Nelvik_Tattoo.Models.GalleryDesign>();
+    }
 
     <!-- FLASH-STRIPE -->
-    <h2>Tilgjengelige flash tattoos</h2>
-    <div class="flash-header">
-        <h3></h3>
-        <a href="/Gallery/Flashes">Se alle →</a>
+    
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Available Flash Designs</h2>
+            <a asp-controller="Gallery"
+               asp-action="Flashes"
+               class="btn btn-outline-light">
+                See All Flash
+            </a>
+        </div>
     </div>
 
-    <div class="flash-scroll">
-        @foreach (var flash in Model.Where(m => m.IsFlash))
+    <div class="flash-scroll-wrapper position-relative">
+
+        <!-- Left arrow -->
+        <button type="button"
+                class="flash-arrow flash-arrow-left btn btn-outline-light btn-sm">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <!-- Existing horizontal scroll container -->
+        <div class="flash-scroll">
+            @foreach (var flash in flashes)
+            {
+                <a asp-controller="Gallery"
+                   asp-action="Details"
+                   asp-route-id="@flash.Id">
+                    <img src="@flash.ImagePath" alt="@flash.Title" />
+                </a>
+            }
+        </div>
+
+        <!-- Right arrow -->
+        <button type="button"
+                class="flash-arrow flash-arrow-right btn btn-outline-light btn-sm">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+    </div>
+
+    
+    <!-- TIDLIGERE MOTIVER -->
+    <h2 class="mt-4">Previous Work</h2>
+    @{
+        var placements = ViewBag.Placements as IEnumerable<string> ?? Enumerable.Empty<string>();
+        string? selectedPlacement = ViewBag.SelectedPlacement as string;
+    }
+
+    <div class="gallery-filter mt-4 mb-4">
+        <span class="me-2 fw-semibold">Filter by placement:</span>
+
+        <!-- "All" button -->
+        <a asp-action="Index"
+           class="btn btn-sm me-2 @(selectedPlacement == null ? "btn": "btn-outline-light")">
+            All
+        </a>
+
+        @foreach (var place in placements)
         {
-            <a asp-controller="Gallery"
-               asp-action="Details"
-               asp-route-id="@flash.Id">
-                <img src="@flash.ImagePath" alt="@flash.Title" />
+            <a asp-action="Index"
+               asp-route-placement="@place"
+               class="btn btn-sm me-2 @(selectedPlacement == place ? "btn" : "btn-outline-light")">
+                @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(place.ToLower())
+
             </a>
         }
     </div>
-
-
-
-    <!-- TIDLIGERE MOTIVER -->
-    <h2 class="mt-4">Tidligere motiver</h2>
-
+    
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => !m.IsFlash))
         {
@@ -46,7 +98,24 @@
         }
     </div>
 </section>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector(".flash-scroll");
+            const leftBtn = document.querySelector(".flash-arrow-left");
+            const rightBtn = document.querySelector(".flash-arrow-right");
 
-@{
-    ViewData["Title"] = "Gallery";
+            if (!container) return;
+
+            const scrollAmount = () => container.clientWidth * 0.8;
+
+            leftBtn?.addEventListener("click", function () {
+                container.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
+            });
+
+            rightBtn?.addEventListener("click", function () {
+                container.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+            });
+        });
+    </script>
 }
