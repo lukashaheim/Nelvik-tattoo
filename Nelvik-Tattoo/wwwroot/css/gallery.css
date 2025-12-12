@@ -4,7 +4,7 @@
 
 img {
     max-width: 100%;
-    height: auto;
+    max-height: auto;
     display: block;
     margin: 0 auto;
 }
@@ -12,7 +12,7 @@ img {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 /* Tittel */
@@ -149,4 +149,32 @@ img {
     width: 100%;
     height: auto;
 }
+.gallery-filter .btn {
+    background-color: white !important;
+    color: black !important;
+    border-color: white !important;
+}
 
+/* Inactive buttons (btn-outline-light) stay transparent with white border */
+.gallery-filter .btn-outline-light {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: white !important;
+}
+/* Arrow buttons */
+.flash-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 999px;
+    padding: 4px 8px;
+}
+
+.flash-arrow-left {
+    left: 0.5rem;
+}
+
+.flash-arrow-right {
+    right: 0.5rem;
+}
