@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Nelvik_Tattoo.Models.Booking>
+<link rel="stylesheet" href="css/bookingAdmin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+@{
+    int page = ViewBag.Page ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<h2>Booking-oversikt</h2>
+
+<form method="get" class="filters">
+    Fra: <input id="from" type="text" name="from" value="@ViewBag.From" />
+    Til: <input id="to" type="text" name="to" value="@ViewBag.To" />
+    <button type="submit">Filter</button>
+    <button type="button" onclick="window.location='@Url.Action("Index", "AdminBooking")'">
+        Reset
+    </button>
+</form>
+
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th>Dato</th>
+        <th>Fra – Til</th>
+        <th>Kunde</th>
+        <th>Ønsket kontakt metode</th>
+        <th>Størrelse</th>
+        <th>Design</th>
+        <th>Plassering</th>
+        <th>Budjett</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var b in Model)
+    {
+        <tr data-bs-toggle="collapse" data-bs-target="#details-@b.Id" style="cursor:pointer;">
+            <td>@b.SelectedDate.ToString("dd.MM.yyyy")</td>
+            <td>@b.SelectedStartTime - @b.SelectedEndTime</td>
+            <td>@b.Email<br />@b.Phone</td>
+            <td>@(b.PrefferedCM == 1 ? "SMS" : "Email")</td>
+            <td>@(b.Size == 1 ? "Small" : b.Size == 2 ? "Medium" : b.Size == 3 ? "Large" : "XL")</td>
+            <td>@b.Design</td>
+            <td>@b.Placement</td>
+            <td>@b.Budget</td>
+        </tr>
+        
+        <tr class="collapse" id="details-@b.Id">
+            <td colspan="10" class="bg-dark p-3">
+                <strong>Kommentar:</strong> @b.Comment <br />
+                
+                <strong>Opplastet bilde:</strong><br />
+                @if (!string.IsNullOrEmpty(b.ImagePath))
+                {
+                    <img src="@Url.Content(b.ImagePath)"
+                         alt="Referanse bilde"
+                         style="max-width: 200px; border-radius: 6px;" />
+                }
+                else
+                {
+                    <span>Ingen bilde lastet opp</span>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div style="margin-top:20px;">
+    <p class="text-light" style="margin-top:10px;">
+        Viser @ViewBag.FromRow-@ViewBag.ToRow av @ViewBag.filteredCount bookinger
+    </p>
+    
+    <div style="display:flex; gap:10px;">
+        @if (page > 1)
+        {
+            <a class="btn btn-secondary" id="prev"
+               href="@Url.Action("Index", new { page = page - 1, from = ViewBag.From, to = ViewBag.To })">
+                Forrige
+            </a>
+        }
+
+        @if (page < totalPages)
+        {
+            <a class="btn btn-secondary" id="next"
+               href="@Url.Action("Index", new { page = page + 1, from = ViewBag.From, to = ViewBag.To })">
+                Neste
+            </a>
+        }
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr("#from", {
+    dateFormat: "Y-m-d",
+    allowInput: true
+  });
+
+  flatpickr("#to", {
+    dateFormat: "Y-m-d",
+    allowInput: true
+  });
+</script>
