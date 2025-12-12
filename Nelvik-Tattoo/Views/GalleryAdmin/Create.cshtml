@@ -1,11 +1,11 @@
 ﻿@model Nelvik_Tattoo.Models.GalleryDesign
 
 @{
-    ViewData["Title"] = "Legg til nytt motiv";
+    ViewData["Title"] = "Add New Design";
 
 }
 
-<h2>Legg til nytt motiv</h2>
+<h2>Add New Design</h2>
 
 <form method="post" enctype="multipart/form-data" asp-action="Create">
     <div class="mb-3">
@@ -18,11 +18,37 @@
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="IsFlash" class="form-label"></label>
-        <input asp-for="IsFlash" type="checkbox" class="form-check-input ms-2" />
-        <small class="form-text">Flash = til salgs. Finished = tidligere motiv.</small>
+    <div class="form-group mb-3">
+        <label class="form-label d-block">Category</label>
+
+        <div class="form-check form-check-inline">
+            <input asp-for="IsFlash"
+                   class="form-check-input"
+                   id="isFlashCheckbox" />
+            <label class="form-check-label" for="isFlashCheckbox">
+                Flash
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input asp-for="IsFinished"
+                   class="form-check-input"
+                   id="isFinishedCheckbox" />
+            <label class="form-check-label" for="isFinishedCheckbox">
+                Earlier work
+            </label>
+        </div>
+
+        <span asp-validation-for="IsFlash" class="text-danger"></span>
+        <span asp-validation-for="IsFinished" class="text-danger"></span>
     </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Placement" class="form-label"></label>
+        <input asp-for="Placement" class="form-control" placeholder="e.g. arm, leg, back..." />
+        <span asp-validation-for="Placement" class="text-danger"></span>
+    </div>
+
 
     <div class="mb-3">
         <label asp-for="Price" class="form-label"></label>
@@ -30,10 +56,33 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Last opp bilde</label>
+        <label class="form-label">Upload design image</label>
         <input type="file" name="imageFile" class="form-control" />
     </div>
 
-    <button class="btn btn-success" type="submit">➕ Legg til</button>
-    <a class="btn btn-secondary" href="/theking/gallery">Avbryt</a>
+    <button class="btn btn-success" type="submit">➕ Add Design</button>
+    <a class="btn btn-secondary" href="/theking/gallery">Cancel</a>
 </form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        const flashCb = document.getElementById("isFlashCheckbox");
+        const finishedCb = document.getElementById("isFinishedCheckbox");
+
+        function syncCategoryCheckboxes(changed) {
+            if (changed === "flash" && flashCb.checked) {
+                earlierCb.checked = false;
+            }
+            if (changed === "finished" && finishedCb.checked) {
+                flashCb.checked = false;
+            }
+        }
+
+        if (flashCb && finishedCb) {
+            flashCb.addEventListener("change", () => syncCategoryCheckboxes("flash"));
+            finishedCb.addEventListener("change", () => syncCategoryCheckboxes("finished"));
+        }
+    </script>
+}

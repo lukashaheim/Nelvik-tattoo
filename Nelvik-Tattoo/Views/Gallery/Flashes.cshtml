@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="~/css/gallery.css" asp-append-version="true" />
 }
 
-<section class="gallery-page container">
+<section class="gallery-page container flash-page">
     <h1>@ViewData["Title"]</h1>
 
-    <p class="text-muted">Klikk på et flash-motiv for å se detaljer og bestille motiv.</p>
+    <p>Click on a flash design to view details and book the design.</p>
 
     <div class="gallery-grid">
         @foreach (var item in Model.Where(m => m.IsFlash))

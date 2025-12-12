@@ -1,7 +1,38 @@
-@model IEnumerable<GalleryDesign>
+@using System.Globalization
+@using System.Linq
+@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+@using System.Linq
+@using Nelvik_Tattoo.Models
 
 @{
-    ViewData["Title"] = "Galleri";
+    var flashes = ViewBag.Flashes as IEnumerable<GalleryDesign>
+                  ?? Enumerable.Empty<GalleryDesign>();
+}
+
+
+@{
+    ViewData["Title"] = "Gallery";
+
+    // Placements from controller
+    var placements = ViewBag.Placements as IEnumerable<string> ?? Enumerable.Empty<string>();
+    string? selectedPlacement = ViewBag.SelectedPlacement as string;
+
+    // FLASH ITEMS come from ViewBag (controller only sends non-flash in Model)
+    var flashItems = ViewBag.Flashes as IEnumerable<Nelvik_Tattoo.Models.GalleryDesign> 
+                     ?? Enumerable.Empty<Nelvik_Tattoo.Models.GalleryDesign>();
+
+    // Sorting from query string (?sort=newest / ?sort=oldest)
+    var sort = Context.Request.Query["sort"].ToString();
+    bool sortNewest = string.IsNullOrEmpty(sort) || sort == "newest";
+    bool sortOldest = sort == "oldest";
+
+    // PREVIOUS WORK (grid) – SORTABLE
+    var previousItems = Model;
+
+    previousItems = sortOldest
+        ? previousItems.OrderBy(m => m.Id)
+        : previousItems.OrderByDescending(m => m.Id);
+    
 }
 
 @section Styles {
@@ -11,31 +42,97 @@
 <section class="gallery-page container">
     <h1>@ViewData["Title"]</h1>
 
+    <!-- SORT BY (applies to Previous Work only) -->
+    
+
     <!-- FLASH-STRIPE -->
-    <h2>Tilgjengelige flash tattoos</h2>
-    <div class="flash-header">
-        <h3></h3>
-        <a href="/Gallery/Flashes">Se alle →</a>
+    
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Available Flash Designs</h2>
+            <a asp-controller="Gallery"
+               asp-action="Flashes"
+               class="btn btn-outline-light">
+                See All Flash
+            </a>
+        </div>
     </div>
 
-    <div class="flash-scroll">
-        @foreach (var flash in Model.Where(m => m.IsFlash))
-        {
-            <a asp-controller="Gallery"
-               asp-action="Details"
-               asp-route-id="@flash.Id">
-                <img src="@flash.ImagePath" alt="@flash.Title" />
+    <div class="flash-scroll-wrapper position-relative">
+
+        <!-- Left arrow -->
+        <button type="button"
+                class="flash-arrow flash-arrow-left btn btn-outline-light btn-sm">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <!-- Existing horizontal scroll container -->
+        <div class="flash-scroll">
+            @foreach (var flash in flashes)
+            {
+                <a asp-controller="Gallery"
+                   asp-action="Details"
+                   asp-route-id="@flash.Id">
+                    <img src="@flash.ImagePath" alt="@flash.Title" />
+                </a>
+            }
+        </div>
+
+        <!-- Right arrow -->
+        <button type="button"
+                class="flash-arrow flash-arrow-right btn btn-outline-light btn-sm">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+    </div>
+    <!-- PREVIOUS WORK -->
+
+    <h2 class="mt-4">Previous Work</h2>
+    <!-- SORT + FILTER ON SAME ROW -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 mb-4">
+        
+        <!-- SORT LEFT -->
+        <div class="gallery-filter d-flex align-items-center gap-2">
+            <span class="fw-normal">Sort by:</span>
+
+            <a asp-action="Index"
+               asp-route-sort="newest"
+               asp-route-placement="@selectedPlacement"
+               class="btn btn-sm @(sortNewest ? "btn" : "btn-outline-light")">
+                Newest
             </a>
+
+            <a asp-action="Index"
+               asp-route-sort="oldest"
+               asp-route-placement="@selectedPlacement"
+               class="btn btn-sm @(sortOldest ? "btn" : "btn-outline-light")">
+                Oldest
+            </a>
+        </div>
+        <!-- FILTER RIGHT -->
+    <div class="gallery-filter d-flex align-items-center gap-2">
+    <span class="fw-normal">Filter by body placement:</span>
+
+        <a asp-action="Index"
+               asp-route-sort="@(sortNewest ? "newest" : "oldest")"
+               class="btn btn-sm @(selectedPlacement == null ? "btn": "btn-outline-light")">
+        All
+    </a>
+
+        @foreach (var place in placements)
+        {
+        <a asp-action="Index"
+           asp-route-placement="@place"
+           asp-route-sort="@(sortNewest ? "newest" : "oldest")"
+           class="btn btn-sm @(selectedPlacement == place ? "btn" : "btn-outline-light")">
+            @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(place.ToLower())
+        </a>
         }
     </div>
-
-
-
-    <!-- TIDLIGERE MOTIVER -->
-    <h2 class="mt-4">Tidligere motiver</h2>
-
+    </div>
+    
     <div class="gallery-grid">
-        @foreach (var item in Model.Where(m => !m.IsFlash))
+        @foreach (var item in previousItems)
         {
             <a asp-controller="Gallery"
                asp-action="Details"
@@ -46,7 +143,38 @@
         }
     </div>
 </section>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector(".flash-scroll");
+            const leftBtn   = document.querySelector(".flash-arrow-left");
+            const rightBtn  = document.querySelector(".flash-arrow-right");
 
-@{
-    ViewData["Title"] = "Gallery";
+            if (!container || !leftBtn || !rightBtn) {
+                console.warn("Flash scroll: missing container or buttons");
+                return;
+            }
+
+            // Find width of one flash item (one <a> with an image)
+            const firstItem = container.querySelector("a");
+            let step = 200; // fallback
+
+            if (firstItem) {
+                const itemRect = firstItem.getBoundingClientRect();
+                const styles = window.getComputedStyle(container);
+                const gap = parseFloat(styles.columnGap || styles.gap || "0");
+
+                // one full image width + the gap between items
+                step = itemRect.width + gap;
+            }
+
+            leftBtn.addEventListener("click", function () {
+                container.scrollBy({ left: -step, behavior: "smooth" });
+            });
+
+            rightBtn.addEventListener("click", function () {
+                container.scrollBy({ left: step, behavior: "smooth" });
+            });
+        });
+    </script>
 }

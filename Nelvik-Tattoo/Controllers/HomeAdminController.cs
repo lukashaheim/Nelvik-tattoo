@@ -22,13 +22,24 @@ namespace Nelvik_Tattoo.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            // Show a simple overview: which images are featured, etc.
-            var designs = await _db.GalleryDesigns
+            // First try: get featured designs
+            var featuredDesigns = await _db.GalleryDesigns
+                .Where(g => g.IsFeatured)
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
-
-            return View(designs);   // Views/HomeAdmin/Index.cshtml
+        
+            // If no featured designs exist → pick newest 6
+            if (featuredDesigns.Count == 0)
+            {
+                featuredDesigns = await _db.GalleryDesigns
+                    .OrderByDescending(g => g.Id)
+                    .Take(8)
+                    .ToListAsync();
+            }
+        
+            return View(featuredDesigns); 
         }
+
 
         // GET /theking/home/edit
         [HttpGet("edit")]

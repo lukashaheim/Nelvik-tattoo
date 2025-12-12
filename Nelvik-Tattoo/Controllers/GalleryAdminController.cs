@@ -42,7 +42,13 @@ namespace Nelvik_Tattoo.Controllers
         {
             if (!ModelState.IsValid)
                 return View(design);
-
+            
+            // Sørg for at de ikke er begge true
+            if (design.IsFlash)
+                design.IsFinished = false;
+            else if (design.IsFinished)
+                design.IsFlash = false;
+            
             if (imageFile != null)
             {
                 string folder = design.IsFlash
@@ -91,6 +97,14 @@ namespace Nelvik_Tattoo.Controllers
             design.Description = model.Description;
             design.Price = model.Price;
             design.IsFlash = model.IsFlash;
+            design.IsFinished = model.IsFinished;
+            design.Placement = model.Placement;
+            
+            // Sørg for at de ikke er begge true
+            if (design.IsFlash)
+                design.IsFinished = false;
+            else if (design.IsFinished)
+                design.IsFlash = false;
 
             // Nytt bilde lastet opp?
             if (imageFile != null)

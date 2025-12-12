@@ -28,6 +28,15 @@ namespace Nelvik_Tattoo.Controllers
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
 
+            // If none are featured yet, fall back to the latest 6 designs
+            if (featuredDesigns.Count == 0)
+            {
+                featuredDesigns = await _db.GalleryDesigns
+                    .OrderByDescending(g => g.Id)
+                    .Take(8)
+                    .ToListAsync();
+            }
+            
             return View(featuredDesigns);
         }
 
