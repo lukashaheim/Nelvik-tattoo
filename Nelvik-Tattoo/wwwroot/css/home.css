@@ -4,6 +4,10 @@
     object-fit: cover;  /* 🔥 zoom + crop so all images fill the box */
     display: block;
 }
+.home-gallery-edit-img {
+    width: 100%;
+    height: 250px;
+}
 .featured-image-container {
     max-height: 500px;
 }
