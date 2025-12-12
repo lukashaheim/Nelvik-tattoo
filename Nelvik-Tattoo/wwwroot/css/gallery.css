@@ -4,7 +4,7 @@
 
 img {
     max-width: 100%;
-    max-height: auto;
+    height: auto;
     display: block;
     margin: 0 auto;
 }
@@ -12,7 +12,7 @@ img {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: .5rem;
+    padding: 1rem;
 }
 
 /* Tittel */
@@ -75,8 +75,16 @@ img {
     }
 }
 
+.flash-page .flash-grid img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
 
 /* --- Flash stripe --- */
+/* --- FLASH STRIPE (fikset versjon) --- */
 .flash-section {
     margin-bottom: 1rem;
 }
@@ -142,61 +150,3 @@ img {
     height: auto;
 }
 
-.gallery-filter {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-.gallery-filter .btn {
-    background-color: #fff !important;
-    color: #000 !important;
-    border: 1px solid #fff !important;
-}
-
-.gallery-filter .btn-outline-light {
-    background-color: transparent !important;
-    color: #fff !important;
-    border: 1px solid #fff !important;
-}
-.flash-scroll-wrapper {
-    position: relative;
-}
-
-/* Your existing .flash-scroll already scrolls horizontally – leave it as is.
-   Just make sure it has overflow-x: auto and display: flex or inline-blocks. */
-
-.flash-scroll {
-    scroll-behavior: smooth;  /* smooth scroll when arrows pressed */
-}
-
-/* Arrow buttons */
-.flash-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    border-radius: 999px;
-    padding: 4px 8px;
-}
-
-.flash-arrow-left {
-    left: 0.5rem;
-}
-
-.flash-arrow-right {
-    right: 0.5rem;
-}
-.flash-page .gallery-grid {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.flash-page img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    display: block;
-}

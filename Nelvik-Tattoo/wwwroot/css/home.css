@@ -1,15 +1,7 @@
 ﻿.home-gallery-img {
-    width: 100%;        /* fill its column just like in your screenshot */
-    height: 375px;      /* same visual height as before */
-    object-fit: cover;  /* 🔥 zoom + crop so all images fill the box */
-    display: block;
-}
-.home-gallery-edit-img {
-    width: 100%;
-    height: 250px;
-}
-.featured-image-container {
-    max-height: 500px;
+    max-height: 500px;   /* adjust this value */
+    width: auto;
+    height: auto;
 }
 .home-info-section {
     padding: 40px 0;
@@ -37,6 +29,7 @@
 
 .info-heading {
     color: #fff;
+    font-weight: 700;
 }
 .info-item {
     color: #ddd;
