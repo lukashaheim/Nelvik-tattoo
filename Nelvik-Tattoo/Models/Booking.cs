@@ -57,7 +57,7 @@ namespace Nelvik_Tattoo.Models
         
         public int PrefferedCM { get; set; }
         
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("Dato")]
@@ -75,8 +75,6 @@ namespace Nelvik_Tattoo.Models
         public IFormFile? Photo { get; set; }   // lagres ikke i DB
 
         public string? ImagePath { get; set; } // lagres i DB
-        
-        public string? Notes { get; set; }
 
     }
 }
