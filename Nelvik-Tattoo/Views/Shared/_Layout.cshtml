@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nelvik Tattoo</title>
     <script type="importmap"></script>
+    <link rel="icon" type="image/png" href="~/logo_icon.png" />
     
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
@@ -63,10 +64,13 @@
         @RenderBody()
     </main>
 </div>
-
 <footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2025 - Nelvik_Tattoo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <div class="container d-flex justify-content-between align-items-center">
+        <span>&copy; 2025 Nelvik Tattoos</span>
+
+        <a asp-area="" asp-controller="Home" asp-action="Privacy">
+            Privacy Policy
+        </a>
     </div>
 </footer>
 
