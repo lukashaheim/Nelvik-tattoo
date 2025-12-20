@@ -9,22 +9,19 @@
 
     <div class="wizard booking-grid">
         <fieldset class="panel" id="p1">
-            <legend>1. Design / Concept</legend>
-            @Html.LabelFor(m => m.Design, new { @class = "required" })
+            <legend class="required">1. Design / Concept</legend>
             @Html.TextAreaFor(m => m.Design, 6, 0, new { @class = "form-control", placeholder = "Example. I want a dragon" })
             @Html.ValidationMessageFor(m => m.Design)
         </fieldset>
 
         <fieldset class="panel locked" id="p2" disabled>
-            <legend>2. Placement</legend>
-            @Html.LabelFor(m => m.Placement, new { @class = "required" })
+            <legend class="required">2. Placement</legend>
             @Html.TextAreaFor(m => m.Placement, 6, 0, new { @class = "form-control", placeholder = "Example. Forearm" })
             @Html.ValidationMessageFor(m => m.Placement)
         </fieldset>
 
         <fieldset class="panel locked" id="p3" disabled>
-            <legend>3. Size</legend>
-            <label class="required">Size</label>
+            <legend class="required">3. Size</legend>
             <div class="size-grid">
                 <input type="radio" class="btn-check" asp-for="Size" id="small" value="1">
                 <label class="btn size-choice" for="small">Small<br>5–10 cm</label>
@@ -43,22 +40,18 @@
 
         <fieldset class="panel locked" id="p4" disabled>
             <legend>4. Image</legend>
-            @Html.LabelFor(m => m.Photo)
             <input id="Photo" asp-for="Photo" type="file" accept="image/*" class="form-control" />
             @Html.ValidationMessageFor(m => m.Photo)
         </fieldset>
 
         <fieldset class="panel locked" id="p5" disabled>
-            <legend>5. Budget / Pricerange</legend>
-            @Html.LabelFor(m => m.Budget, new { @class = "required" })
+            <legend class="required">5. Budget / Pricerange</legend>
             @Html.TextAreaFor(m => m.Budget, 6, 0, new { @class = "form-control", placeholder = "Example. 3000 - 6500 kr" })
             @Html.ValidationMessageFor(m => m.Budget)
         </fieldset>
 
         <fieldset class="panel locked" id="p6" disabled>
-            <legend>6. Preferred Date / Time</legend>
-
-            @Html.LabelFor(m => m.SelectedDate, new { @class = "required" })
+            <legend class="required">6. Preferred Date / Time</legend>
             <input id="date" asp-for="SelectedDate" class="form-control" type="date" asp-format="{0:yyyy-MM-dd}" />
             @Html.ValidationMessageFor(m => m.SelectedDate)
 
@@ -105,7 +98,6 @@
 
         <fieldset class="panel locked" id="p8" disabled>
             <legend>8. Comment</legend>
-            @Html.LabelFor(m => m.Comment)
             @Html.TextAreaFor(m => m.Comment, 6, 0, new { @class = "form-control", placeholder = "Example. Sensitive skin" })
             @Html.ValidationMessageFor(m => m.Comment)
         </fieldset>
