@@ -16,3 +16,38 @@
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
 }
+
+.copy-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.copy-icon:hover {
+    color: #000;
+}
+
+.copy-icon { pointer-events: auto; }
+
+.copy-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.copy-icon:hover {
+    color: #fff;
+}
+
+.copied-msg {
+    margin-left: 6px;
+    font-size: 0.75rem;
+    color: #28a745;
+    animation: fadeOut 1.2s forwards;
+}
+
+@keyframes fadeOut {
+    0%   { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+}

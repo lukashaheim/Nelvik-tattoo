@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Nelvik_Tattoo.Models.Booking>
 <link rel="stylesheet" href="css/bookingAdmin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
@@ -29,22 +30,35 @@
         <th>Størrelse</th>
         <th>Design</th>
         <th>Plassering</th>
-        <th>Budjett</th>
+        <th>Budsjett</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var b in Model)
     {
-        <tr data-bs-toggle="collapse" data-bs-target="#details-@b.Id" style="cursor:pointer;">
-            <td>@b.SelectedDate.ToString("dd.MM.yyyy")</td>
-            <td>@b.SelectedStartTime - @b.SelectedEndTime</td>
-            <td>@b.Email<br />@b.Phone</td>
-            <td>@(b.PrefferedCM == 1 ? "SMS" : "Email")</td>
-            <td>@(b.Size == 1 ? "Small" : b.Size == 2 ? "Medium" : b.Size == 3 ? "Large" : "XL")</td>
-            <td>@b.Design</td>
-            <td>@b.Placement</td>
-            <td>@b.Budget</td>
+        <tr style="cursor:pointer;">
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.SelectedDate.ToString("dd.MM.yyyy")</td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.SelectedStartTime - @b.SelectedEndTime</td>
+            <td>
+                <span id="email-@b.Id">@b.Email</span>
+                <i class="fa-regular fa-copy copy-icon"
+                   onclick="copyText(event, 'email-@b.Id')"
+                   title="Kopier e-post"></i>
+
+                <br />
+
+                <span id="phone-@b.Id">@b.Phone</span>
+                <i class="fa-regular fa-copy copy-icon"
+                   onclick="copyText(event, 'phone-@b.Id')"
+                   title="Kopier telefon"></i>
+            </td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@(b.PrefferedCM == 1 ? "SMS" : "Email")</td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@(b.Size == 1 ? "Small" : b.Size == 2 ? "Medium" : b.Size == 3 ? "Large" : "XL")</td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Design</td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Placement</td>
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Budget</td>
         </tr>
+
         
         <tr class="collapse" id="details-@b.Id">
             <td colspan="10" class="bg-dark p-3">
@@ -101,4 +115,35 @@
     dateFormat: "Y-m-d",
     allowInput: true
   });
+
+  function copyText(e, id) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      const text = document.getElementById(id).innerText;
+
+      navigator.clipboard.writeText(text).then(() => {
+          showCopied(e.target);
+      });
+  }
+
+  function showCopied(icon) {
+      // Fjern evt eksisterende melding ved samme ikon
+      const existing = icon.nextElementSibling;
+      if (existing && existing.classList.contains("copied-msg")) {
+          existing.remove();
+      }
+
+      const msg = document.createElement("span");
+      msg.className = "copied-msg";
+      msg.innerText = "Kopiert";
+
+      // 🔑 legg meldingen rett etter ikonet
+      icon.insertAdjacentElement("afterend", msg);
+
+      setTimeout(() => {
+          msg.remove();
+      }, 1200);
+  }
+
 </script>
