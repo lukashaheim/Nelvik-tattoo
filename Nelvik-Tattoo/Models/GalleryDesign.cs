@@ -18,6 +18,8 @@
         public int? Price { get; set; }
         
         public bool IsFeatured { get; set; }
+        
+        public List<GalleryDesignImage> Images { get; set; } = new();
 
     }
 

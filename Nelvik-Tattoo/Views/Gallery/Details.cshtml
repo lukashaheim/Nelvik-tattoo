@@ -1,7 +1,21 @@
-﻿@model GalleryDesign
+﻿@model Nelvik_Tattoo.Models.GalleryDesign
 
 @{
     ViewData["Title"] = Model.Title;
+
+    // Build a single list of image paths (strings)
+    var images = (Model.Images ?? new List<Nelvik_Tattoo.Models.GalleryDesignImage>())
+        .OrderBy(i => i.SortOrder)
+        .Select(i => i.ImagePath)
+        .Where(p => !string.IsNullOrEmpty(p))
+        .Distinct()
+        .ToList();
+
+    // Ensure cover image is included too
+    if (!string.IsNullOrEmpty(Model.ImagePath) && !images.Contains(Model.ImagePath))
+        images.Insert(0, Model.ImagePath);
+
+    var mainImage = images.FirstOrDefault();
 }
 
 @section Styles {
@@ -13,9 +27,33 @@
 
     <div class="row">
         <div class="col-md-6">
-            <img src="@Model.ImagePath"
-                 alt="@Model.Title"
-                 style="width:100%; height:auto; display:block; border-radius:8px;" />
+            @if (!string.IsNullOrEmpty(mainImage))
+            {
+                <img id="mainDesignImage"
+                     src="@mainImage"
+                     alt="@Model.Title"
+                     style="width:100%; border-radius:8px;" />
+            }
+            else
+            {
+                <div class="text-muted">No image available.</div>
+            }
+
+            @if (images.Count > 1)
+            {
+                <div class="angle-thumbs mt-3">
+                    @foreach (var imgPath in images)
+                    {
+                        <button type="button"
+                                class="angle-thumb-btn"
+                                onclick="setMainImage('@imgPath')">
+                            <img src="@imgPath"
+                                 class="angle-thumb-img"
+                                 alt="@Model.Title" />
+                        </button>
+                    }
+                </div>
+            }
         </div>
 
         <div class="col-md-6">
@@ -40,3 +78,12 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        function setMainImage(src) {
+            const main = document.getElementById('mainDesignImage');
+            if (main) main.src = src;
+        }
+    </script>
+}

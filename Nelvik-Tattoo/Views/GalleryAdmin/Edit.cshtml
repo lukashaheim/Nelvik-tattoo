@@ -6,6 +6,7 @@
 
 <h2>Edit design</h2>
 
+<!-- MAIN EDIT FORM (fields + upload) -->
 <form method="post" enctype="multipart/form-data" asp-action="Edit" asp-route-id="@Model.Id">
     <input type="hidden" asp-for="Id" />
 
@@ -43,12 +44,12 @@
         <span asp-validation-for="IsFlash" class="text-danger"></span>
         <span asp-validation-for="IsFinished" class="text-danger"></span>
     </div>
+
     <div class="form-group mb-3">
         <label asp-for="Placement" class="form-label"></label>
         <input asp-for="Placement" class="form-control" placeholder="e.g. arm, leg, back..." />
         <span asp-validation-for="Placement" class="text-danger"></span>
     </div>
-
 
     <div class="mb-3">
         <label asp-for="Price"></label>
@@ -56,38 +57,92 @@
     </div>
 
     <div class="mb-3">
-        <label>Current design image:</label><br />
-        <img src="@Model.ImagePath" style="max-height:150px; border-radius:6px;" />
+        <label>Current cover image:</label><br />
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" style="max-height:150px; border-radius:6px;" />
+        }
+        else
+        {
+            <div class="text-muted">No cover image set</div>
+        }
     </div>
 
     <div class="mb-3">
-        <label>Upload new design image (optional):</label>
-        <input type="file" name="imageFile" class="form-control" />
+        <label>Add more images:</label>
+        <input type="file" name="imageFiles" multiple class="form-control" />
+        <small class="text-muted">These will be added to the design (existing images stay).</small>
     </div>
 
     <button class="btn btn-primary" type="submit">💾 Save Changes</button>
     <a class="btn btn-secondary" href="/theking/gallery">Cancel</a>
 </form>
 
+<!-- IMAGE MANAGEMENT (separate forms: Set cover + Delete) -->
+@if (Model.Images != null && Model.Images.Count > 0)
+{
+    <hr class="my-4" />
+    <h5>Images</h5>
+
+    <div class="angle-thumbs mt-3">
+        @foreach (var img in Model.Images.OrderBy(i => i.SortOrder))
+        {
+            var isCover = (!string.IsNullOrEmpty(Model.ImagePath) && Model.ImagePath == img.ImagePath);
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <img src="@img.ImagePath" class="angle-thumb-img" />
+
+                <div class="d-flex gap-2">
+                    <form asp-controller="GalleryAdmin"
+                          asp-action="SetCover"
+                          asp-route-imageId="@img.Id"
+                          method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit"
+                                class="btn btn-sm @(isCover ? "btn-success" : "btn-outline-success")">
+                            @(isCover ? "Cover" : "Set cover")
+                        </button>
+                    </form>
+
+                    <form asp-controller="GalleryAdmin"
+                          asp-action="DeleteImage"
+                          asp-route-imageId="@img.Id"
+                          method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <hr class="my-4" />
+    <div class="text-muted">No images uploaded yet.</div>
+}
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
         const flashCb = document.getElementById("isFlashCheckbox");
-        const earlierCb = document.getElementById("isEarlierWorkCheckbox");
+        const finishedCb = document.getElementById("isFinishedCheckbox");
 
         function syncCategoryCheckboxes(changed) {
             if (changed === "flash" && flashCb.checked) {
-                earlierCb.checked = false;
+                finishedCb.checked = false;
             }
-            if (changed === "earlier" && earlierCb.checked) {
+            if (changed === "finished" && finishedCb.checked) {
                 flashCb.checked = false;
             }
         }
 
-        if (flashCb && earlierCb) {
+        if (flashCb && finishedCb) {
             flashCb.addEventListener("change", () => syncCategoryCheckboxes("flash"));
-            earlierCb.addEventListener("change", () => syncCategoryCheckboxes("earlier"));
+            finishedCb.addEventListener("change", () => syncCategoryCheckboxes("finished"));
         }
     </script>
 }

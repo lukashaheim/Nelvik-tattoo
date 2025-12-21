@@ -68,14 +68,15 @@ namespace Nelvik_Tattoo.Controllers
         }
 
         // -------------------------------------------
-        // DETALJER FOR ETT MOTIV
-        // -------------------------------------------
+// DETALJER FOR ETT MOTIV
+// -------------------------------------------
         public async Task<IActionResult> Details(int id)
         {
             if (id == 0)
                 return BadRequest();
 
             var design = await _context.GalleryDesigns
+                .Include(d => d.Images)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (design == null)
@@ -83,5 +84,7 @@ namespace Nelvik_Tattoo.Controllers
 
             return View(design);
         }
+
+
     }
 }
