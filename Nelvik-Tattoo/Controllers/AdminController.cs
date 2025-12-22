@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Nelvik_Tattoo.Controllers
 {
-    [Authorize(Policy = "OwnerOnly")]
+    [Authorize]
     [Route("theking")]                 // admin-side nå på /theking (ikke /admin)
     public class AdminController : Controller
     {

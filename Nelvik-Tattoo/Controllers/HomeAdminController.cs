@@ -7,7 +7,7 @@ using Nelvik_Tattoo.Data;
 
 namespace Nelvik_Tattoo.Controllers
 {
-    [Authorize(Policy = "OwnerOnly")]
+    [Authorize]
     [Route("theking/home")]
     public class HomeAdminController : Controller
     {

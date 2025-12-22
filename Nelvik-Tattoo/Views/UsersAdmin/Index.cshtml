@@ -1,0 +1,93 @@
+﻿@model Nelvik_Tattoo.Models.Admin.UsersAdminIndexVm
+
+@{
+    ViewData["Title"] = "Brukere";
+}
+
+<h2 class="mb-3">Brukere (kun Owner)</h2>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Opprett ny ansatt</h5>
+        <form asp-controller="UsersAdmin" asp-action="Create" method="post" class="row g-3">
+            @Html.AntiForgeryToken()
+
+            <div class="col-md-4">
+                <label asp-for="Create.Email" class="form-label text-dark"></label>
+                <input asp-for="Create.Email" class="form-control" />
+                <span asp-validation-for="Create.Email" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Create.Password" class="form-label text-dark"></label>
+                <input asp-for="Create.Password" class="form-control" />
+                <span asp-validation-for="Create.Password" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Create.ConfirmPassword" class="form-label text-dark"></label>
+                <input asp-for="Create.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Create.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Opprett bruker</button>
+                <div class="form-text mt-2">
+                    Brukeren blir opprettet med <strong>EmailConfirmed = true</strong> slik at den kan logge inn (siden prosjektet krever bekreftet konto).
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h5>Eksisterende brukere</h5>
+
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th>E-post</th>
+        <th>Roller</th>
+        <th>E-post bekreftet</th>
+        <th>2FA</th>
+        <th>Låst</th>
+        <th class="text-end">Handling</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model.Users)
+    {
+        <tr>
+            <td>@u.Email</td>
+            <td>@(u.Roles.Count == 0 ? "-" : string.Join(", ", u.Roles))</td>
+            <td>@(u.EmailConfirmed ? "Ja" : "Nei")</td>
+            <td>@(u.TwoFactorEnabled ? "På" : "Av")</td>
+            <td>@(u.IsLockedOut ? "Ja" : "Nei")</td>
+            
+            <td class="text-end">
+                <form asp-controller="UsersAdmin"
+                      asp-action="Delete"
+                      asp-route-id="@u.Id"
+                      method="post"
+                      onsubmit="return confirm('Slette @u.Email?');"
+                      style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-sm btn-danger">Slett</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

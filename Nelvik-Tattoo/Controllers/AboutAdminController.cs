@@ -10,7 +10,7 @@ using Nelvik_Tattoo.Models;
 
 namespace Nelvik_Tattoo.Controllers
 {
-    [Authorize(Policy = "OwnerOnly")]
+    [Authorize]
     [Route("theking/about")]
     public class AboutAdminController : Controller
     {

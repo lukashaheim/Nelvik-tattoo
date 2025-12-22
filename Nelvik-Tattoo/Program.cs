@@ -18,6 +18,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -38,9 +39,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("OwnerOnly", policy =>
-        policy.RequireAssertion(ctx =>
-            ctx.User?.Identity?.IsAuthenticated == true &&
-            ctx.User.Identity!.Name == "owner@nelviktattoo.no"));
+        policy.RequireRole(OwnerUserSeeder.OwnerRole));
 });
 
 var app = builder.Build();

@@ -8,7 +8,7 @@ using Nelvik_Tattoo.Models;
 
 namespace Nelvik_Tattoo.Controllers
 {
-    [Authorize(Policy = "OwnerOnly")]
+    [Authorize]
     [Route("theking/faq")]
     public class AdminFaqController : Controller
     {
