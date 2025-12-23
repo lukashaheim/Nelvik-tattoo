@@ -21,12 +21,14 @@ namespace Nelvik_Tattoo.Controllers
         {
             // Flashes: always shown, not filtered
             var flashes = await _context.GalleryDesigns
+                .Include(d => d.Images)
                 .Where(d => d.IsFlash)
                 .OrderByDescending(d => d.Id)
                 .ToListAsync();
 
             // Non-flash designs
             var query = _context.GalleryDesigns
+                .Include(d => d.Images)
                 .Where(d => !d.IsFlash);
 
             if (!string.IsNullOrWhiteSpace(placement))
@@ -52,7 +54,6 @@ namespace Nelvik_Tattoo.Controllers
             // Model = only non-flash designs
             return View(designs);
         }
-
 
         // -------------------------------------------
         // KUN FLASH – Til salgs

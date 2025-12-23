@@ -1,14 +1,7 @@
 @using System.Globalization
 @using System.Linq
-@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
-@using System.Linq
 @using Nelvik_Tattoo.Models
-
-@{
-    var flashes = ViewBag.Flashes as IEnumerable<GalleryDesign>
-                  ?? Enumerable.Empty<GalleryDesign>();
-}
-
+@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
 
 @{
     ViewData["Title"] = "Gallery";
@@ -17,9 +10,9 @@
     var placements = ViewBag.Placements as IEnumerable<string> ?? Enumerable.Empty<string>();
     string? selectedPlacement = ViewBag.SelectedPlacement as string;
 
-    // FLASH ITEMS come from ViewBag (controller only sends non-flash in Model)
-    var flashItems = ViewBag.Flashes as IEnumerable<Nelvik_Tattoo.Models.GalleryDesign> 
-                     ?? Enumerable.Empty<Nelvik_Tattoo.Models.GalleryDesign>();
+    // FLASH ITEMS
+    var flashes = ViewBag.Flashes as IEnumerable<GalleryDesign>
+                  ?? Enumerable.Empty<GalleryDesign>();
 
     // Sorting from query string (?sort=newest / ?sort=oldest)
     var sort = Context.Request.Query["sort"].ToString();
@@ -32,7 +25,6 @@
     previousItems = sortOldest
         ? previousItems.OrderBy(m => m.Id)
         : previousItems.OrderByDescending(m => m.Id);
-    
 }
 
 @section Styles {
@@ -42,11 +34,7 @@
 <section class="gallery-page container">
     <h1>@ViewData["Title"]</h1>
 
-    <!-- SORT BY (applies to Previous Work only) -->
-    
-
     <!-- FLASH-STRIPE -->
-    
     <div class="row mb-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
             <h2 class="mb-0">Available Flash Designs</h2>
@@ -70,10 +58,27 @@
         <div class="flash-scroll">
             @foreach (var flash in flashes)
             {
+                // Build list of image paths: extra images + cover
+                var imgs = (flash.Images ?? new List<GalleryDesignImage>())
+                    .OrderBy(i => i.SortOrder)
+                    .Select(i => i.ImagePath)
+                    .Where(p => !string.IsNullOrEmpty(p))
+                    .Distinct()
+                    .ToList();
+
+                if (!string.IsNullOrEmpty(flash.ImagePath) && !imgs.Contains(flash.ImagePath))
+                    imgs.Insert(0, flash.ImagePath);
+
+                var firstImg = imgs.FirstOrDefault() ?? flash.ImagePath;
+                var dataImages = string.Join("|", imgs);
+
                 <a asp-controller="Gallery"
                    asp-action="Details"
                    asp-route-id="@flash.Id">
-                    <img src="@flash.ImagePath" alt="@flash.Title" />
+                    <img class="gallery-hover-cycle"
+                         src="@firstImg"
+                         data-images="@dataImages"
+                         alt="@flash.Title" />
                 </a>
             }
         </div>
@@ -85,12 +90,13 @@
         </button>
 
     </div>
-    <!-- PREVIOUS WORK -->
 
+    <!-- PREVIOUS WORK -->
     <h2 class="mt-4">Previous Work</h2>
+
     <!-- SORT + FILTER ON SAME ROW -->
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 mb-4">
-        
+
         <!-- SORT LEFT -->
         <div class="gallery-filter d-flex align-items-center gap-2">
             <span class="fw-normal">Sort by:</span>
@@ -109,71 +115,150 @@
                 Oldest
             </a>
         </div>
+
         <!-- FILTER RIGHT -->
-    <div class="gallery-filter d-flex align-items-center gap-2">
-    <span class="fw-normal">Filter by body placement:</span>
+        <div class="gallery-filter d-flex align-items-center gap-2">
+            <span class="fw-normal">Filter by body placement:</span>
 
-        <a asp-action="Index"
+            <a asp-action="Index"
                asp-route-sort="@(sortNewest ? "newest" : "oldest")"
-               class="btn btn-sm @(selectedPlacement == null ? "btn": "btn-outline-light")">
-        All
-    </a>
+               class="btn btn-sm @(selectedPlacement == null ? "btn" : "btn-outline-light")">
+                All
+            </a>
 
-        @foreach (var place in placements)
-        {
-        <a asp-action="Index"
-           asp-route-placement="@place"
-           asp-route-sort="@(sortNewest ? "newest" : "oldest")"
-           class="btn btn-sm @(selectedPlacement == place ? "btn" : "btn-outline-light")">
-            @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(place.ToLower())
-        </a>
-        }
+            @foreach (var place in placements)
+            {
+                <a asp-action="Index"
+                   asp-route-placement="@place"
+                   asp-route-sort="@(sortNewest ? "newest" : "oldest")"
+                   class="btn btn-sm @(selectedPlacement == place ? "btn" : "btn-outline-light")">
+                    @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(place.ToLower())
+                </a>
+            }
+        </div>
     </div>
-    </div>
-    
+
     <div class="gallery-grid">
         @foreach (var item in previousItems)
         {
+            // Build list of image paths: extra images + cover
+            var imgs = (item.Images ?? new List<GalleryDesignImage>())
+                .OrderBy(i => i.SortOrder)
+                .Select(i => i.ImagePath)
+                .Where(p => !string.IsNullOrEmpty(p))
+                .Distinct()
+                .ToList();
+
+            if (!string.IsNullOrEmpty(item.ImagePath) && !imgs.Contains(item.ImagePath))
+                imgs.Insert(0, item.ImagePath);
+
+            var firstImg = imgs.FirstOrDefault() ?? item.ImagePath;
+            var dataImages = string.Join("|", imgs);
+
             <a asp-controller="Gallery"
                asp-action="Details"
                asp-route-id="@item.Id"
                class="gallery-item no-title">
-                <img src="@item.ImagePath" alt="@item.Title" />
+                <img class="gallery-hover-cycle"
+                     src="@firstImg"
+                     data-images="@dataImages"
+                     alt="@item.Title" />
             </a>
         }
     </div>
 </section>
+
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // -------- Flash arrows (your existing code) --------
             const container = document.querySelector(".flash-scroll");
-            const leftBtn   = document.querySelector(".flash-arrow-left");
-            const rightBtn  = document.querySelector(".flash-arrow-right");
+            const leftBtn = document.querySelector(".flash-arrow-left");
+            const rightBtn = document.querySelector(".flash-arrow-right");
 
-            if (!container || !leftBtn || !rightBtn) {
-                console.warn("Flash scroll: missing container or buttons");
-                return;
+            if (container && leftBtn && rightBtn) {
+                const firstItem = container.querySelector("a");
+                let step = 200; // fallback
+
+                if (firstItem) {
+                    const itemRect = firstItem.getBoundingClientRect();
+                    const styles = window.getComputedStyle(container);
+                    const gap = parseFloat(styles.columnGap || styles.gap || "0");
+                    step = itemRect.width + gap;
+                }
+
+                leftBtn.addEventListener("click", function () {
+                    container.scrollBy({ left: -step, behavior: "smooth" });
+                });
+
+                rightBtn.addEventListener("click", function () {
+                    container.scrollBy({ left: step, behavior: "smooth" });
+                });
+            }
+            
+            const INTERVAL_MS = 700;
+            const HOLD_DELAY_MS = 180;
+
+            function parseImages(el) {
+                const raw = el.dataset.images || "";
+                const arr = raw.split("|").map(s => s.trim()).filter(Boolean);
+                if (arr.length) return arr;
+
+                const src = el.getAttribute("src");
+                return src ? [src] : [];
             }
 
-            // Find width of one flash item (one <a> with an image)
-            const firstItem = container.querySelector("a");
-            let step = 200; // fallback
+            function startCycle(imgEl) {
+                const images = parseImages(imgEl);
+                if (images.length <= 1) return;
 
-            if (firstItem) {
-                const itemRect = firstItem.getBoundingClientRect();
-                const styles = window.getComputedStyle(container);
-                const gap = parseFloat(styles.columnGap || styles.gap || "0");
+                stopCycle(imgEl, false);
 
-                // one full image width + the gap between items
-                step = itemRect.width + gap;
+                let idx = 0;
+                const timer = setInterval(() => {
+                    idx = (idx + 1) % images.length;
+                    imgEl.src = images[idx];
+                }, INTERVAL_MS);
+
+                imgEl.dataset.cycleTimer = String(timer);
             }
 
-            leftBtn.addEventListener("click", function () {
-                container.scrollBy({ left: -step, behavior: "smooth" });
-            });
+            function stopCycle(imgEl, reset = true) {
+                const t = imgEl.dataset.cycleTimer;
+                if (t) {
+                    clearInterval(Number(t));
+                    delete imgEl.dataset.cycleTimer;
+                }
 
-            rightBtn.addEventListener("click", function () {
-                container.scrollBy({ left: step, behavior: "smooth" });
+                if (reset) {
+                    const images = parseImages(imgEl);
+                    if (images.length) imgEl.src = images[0];
+                }
+            }
+
+            document.querySelectorAll("img.gallery-hover-cycle").forEach(imgEl => {
+                // Desktop hover
+                imgEl.addEventListener("mouseenter", () => startCycle(imgEl));
+                imgEl.addEventListener("mouseleave", () => stopCycle(imgEl, true));
+
+                // Mobile: press and hold (pointer events)
+                let holdTimer = null;
+
+                imgEl.addEventListener("pointerdown", () => {
+                    holdTimer = setTimeout(() => startCycle(imgEl), HOLD_DELAY_MS);
+                });
+
+                const cancelHold = () => {
+                    if (holdTimer) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                    }
+                    stopCycle(imgEl, true);
+                };
+
+                imgEl.addEventListener("pointerup", cancelHold);
+                imgEl.addEventListener("pointercancel", cancelHold);
+                imgEl.addEventListener("pointerleave", cancelHold);
             });
         });
     </script>
