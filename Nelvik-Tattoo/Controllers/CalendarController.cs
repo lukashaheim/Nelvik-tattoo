@@ -25,6 +25,12 @@ public class CalendarController : Controller
         {
             var start = b.SelectedDate.ToDateTime(b.SelectedStartTime);
             var end = b.SelectedDate.ToDateTime(b.SelectedEndTime);
+            
+            string preferredText = b.PrefferedCM switch
+            {
+                1 => "Preferred contact method: SMS",
+                2 => "Preferred contact method: Email"
+            };
 
             sb.AppendLine("BEGIN:VEVENT");
             sb.AppendLine($"UID:booking-{b.Id}@nelvik-tattoo");
@@ -32,7 +38,12 @@ public class CalendarController : Controller
             sb.AppendLine($"DTSTART:{start:yyyyMMddTHHmmss}");
             sb.AppendLine($"DTEND:{end:yyyyMMddTHHmmss}");
             sb.AppendLine($"SUMMARY:Tattoo booking");
-            sb.AppendLine($"DESCRIPTION:{b.Design} – {b.Placement}");
+            sb.AppendLine(
+                $"DESCRIPTION:{b.Design} – {b.Placement}\\n" +
+                $"Email: {b.Email}\\n" +
+                $"Phone: {b.Phone}\\n" +
+                $"{preferredText}"
+            );
             sb.AppendLine("END:VEVENT");
         }
 
