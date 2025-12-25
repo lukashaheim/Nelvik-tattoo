@@ -51,3 +51,38 @@
     80%  { opacity: 1; }
     100% { opacity: 0; }
 }
+
+/* Fra / Til label-tekst */
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e5e7eb;
+    font-weight: 600;
+}
+
+.filters input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #9ca3af;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.filters input::placeholder {
+    color: #cbd5e1;
+}
+
+form.filters button {
+    background-color: #6b7280;
+    color: #ffffff;
+    border: 1px solid #d1d5db;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: none;
+}
+
+.filters button:hover {
+    background: #4b5563;
+}
