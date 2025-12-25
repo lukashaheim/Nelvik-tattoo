@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Nelvik_Tattoo.Models.Booking>
+﻿@using System.Collections.Generic
+@model IEnumerable<Nelvik_Tattoo.Models.Booking>
 <link rel="stylesheet" href="css/bookingAdmin.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -7,7 +8,10 @@
 @{
     int page = ViewBag.Page ?? 1;
     int totalPages = ViewBag.TotalPages ?? 1;
+
+    var collisionIds = ViewBag.CollisionIds as HashSet<int> ?? new HashSet<int>();
 }
+
 
 <h2>Booking-oversikt</h2>
 
@@ -31,14 +35,20 @@
         <th>Design</th>
         <th>Plassering</th>
         <th>Budsjett</th>
+        <th>Status</th>
+        <th></th>
     </tr>
     </thead>
+
     <tbody>
     @foreach (var b in Model)
     {
+        bool collides = collisionIds.Contains(b.Id);
+        
         <tr style="cursor:pointer;">
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.SelectedDate.ToString("dd.MM.yyyy")</td>
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.SelectedStartTime - @b.SelectedEndTime</td>
+
             <td>
                 <span id="email-@b.Id">@b.Email</span>
                 <i class="fa-regular fa-copy copy-icon"
@@ -52,18 +62,43 @@
                    onclick="copyText(event, 'phone-@b.Id')"
                    title="Kopier telefon"></i>
             </td>
+
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@(b.PrefferedCM == 1 ? "SMS" : "Email")</td>
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@(b.Size == 1 ? "Small" : b.Size == 2 ? "Medium" : b.Size == 3 ? "Large" : "XL")</td>
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Design</td>
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Placement</td>
             <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">@b.Budget</td>
+
+
+            <td data-bs-toggle="collapse" data-bs-target="#details-@b.Id">
+                @if (collides)
+                {
+                    <span class="badge bg-danger" title="Kolliderer med en annen booking">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-success" title="Ingen kollisjon">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                }
+            </td>
+
+
+            <td>
+                <a class="btn btn-sm btn-primary"
+                   href="@Url.Action("Edit", "AdminBooking", new { id = b.Id })"
+                   onclick="event.stopPropagation();">
+                    <i class="fa-solid fa-pen-to-square"></i> Rediger
+                </a>
+            </td>
         </tr>
 
-        
         <tr class="collapse" id="details-@b.Id">
             <td colspan="10" class="bg-dark p-3">
                 <strong>Kommentar:</strong> @b.Comment <br />
-                
+
                 <strong>Opplastet bilde:</strong><br />
                 @if (!string.IsNullOrEmpty(b.ImagePath))
                 {
@@ -80,9 +115,11 @@
     }
     </tbody>
 </table>
+
+
 <div style="margin-top:20px;">
     <p class="text-light" style="margin-top:10px;">
-        Viser @ViewBag.FromRow-@ViewBag.ToRow av @ViewBag.filteredCount bookinger
+        Viser @ViewBag.FromRow-@ViewBag.ToRow av @ViewBag.FilteredCount bookinger
     </p>
     
     <div style="display:flex; gap:10px;">
@@ -128,7 +165,6 @@
   }
 
   function showCopied(icon) {
-      // Fjern evt eksisterende melding ved samme ikon
       const existing = icon.nextElementSibling;
       if (existing && existing.classList.contains("copied-msg")) {
           existing.remove();
@@ -137,8 +173,7 @@
       const msg = document.createElement("span");
       msg.className = "copied-msg";
       msg.innerText = "Kopiert";
-
-      // 🔑 legg meldingen rett etter ikonet
+      
       icon.insertAdjacentElement("afterend", msg);
 
       setTimeout(() => {

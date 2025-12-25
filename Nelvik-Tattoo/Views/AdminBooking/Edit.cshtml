@@ -1,0 +1,76 @@
+@model Nelvik_Tattoo.Models.Booking
+
+<h2>Rediger booking</h2>
+
+<form asp-action="Edit" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="SelectedDate" class="form-label">Dato</label>
+        <input asp-for="SelectedDate" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SelectedStartTime" class="form-label">Start</label>
+        <input asp-for="SelectedStartTime" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SelectedEndTime" class="form-label">Slutt</label>
+        <input asp-for="SelectedEndTime" class="form-control" />
+    </div>
+
+    <hr />
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">E-post</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label">Telefon</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PrefferedCM" class="form-label">Kontaktmetode</label>
+        <select asp-for="PrefferedCM" class="form-control">
+            <option value="1">SMS</option>
+            <option value="2">Email</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Size" class="form-label">Størrelse</label>
+        <select asp-for="Size" class="form-control">
+            <option value="1">Small</option>
+            <option value="2">Medium</option>
+            <option value="3">Large</option>
+            <option value="4">XL</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Design" class="form-label">Design</label>
+        <input asp-for="Design" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Placement" class="form-label">Plassering</label>
+        <input asp-for="Placement" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Budget" class="form-label">Budsjett</label>
+        <input asp-for="Budget" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Comment" class="form-label">Kommentar</label>
+        <textarea asp-for="Comment" class="form-control" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lagre</button>
+    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+</form>
