@@ -1,0 +1,20 @@
+﻿@model Nelvik_Tattoo.Models.AboutPage
+
+@{
+    ViewData["Title"] = "About";
+    Layout = "_Layout";
+}
+
+<div class="container about-container">
+    <div class="row align-items-start">
+        <div class="col text-column">
+            <h1>@Model.Title</h1>
+            <p>@Model.Body</p>
+        </div>
+        <div class="col-auto image-column">
+            <div class="image-container">
+                <img src="@Model.ImagePath" id="aboutImg" alt="About image" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿/* =========== Layout container =========== */
+.faq-container {
+    padding: 50px;
+    padding-bottom: 3rem;            /* litt luft nederst */
+    max-width: 1200px;
+    margin: 0 auto;
+    background: transparent !important;
+}
+
+@media (max-width: 992px) {
+    .faq-container { padding-left: 40px; padding-right: 40px; }
+}
+@media (max-width: 576px) {
+    .faq-container { padding-left: 20px; padding-right: 20px; }
+}
+
+/* =========== Kolonner =========== */
+.text-column { flex: 1; color: #fff; }
+.image-column { flex-shrink: 0; }
+
+.image-container {
+    width: 450px;
+    height: auto;
+    overflow: hidden;
+}
+
+#faqImg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* =========== Typografi =========== */
+.faq-container h1 { color: #8B0000; }
+.text-column h1 { font-size: 3.5rem; margin-bottom: 1.5rem; }
+
+.faq-container h5,
+.faq-container p { color: #ffffff; }
+
+.text-column h5 { color: #fff; margin-top: 1.25rem; }
+.text-column p  { color: #fff; font-size: 1.1rem; line-height: 1.6; margin-bottom: .75rem; }
+.text-column .faq-answer { color: #fff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.25rem; }
+
+
+
+/* Unngå global bakgrunn som forstyrrer FAQ */
+html, body { height: 100%; margin: 0; }
+body { background: none; }

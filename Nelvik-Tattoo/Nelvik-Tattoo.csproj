@@ -9,20 +9,34 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.9"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.9" />
     </ItemGroup>
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Booking\Confirmation.cshtml" />
       <_ContentIncludedByDefault Remove="Booking\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Flash\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\Images\Booking\Uploads\" />
+      <Content Update="wwwroot\Images\flash\image2.jpeg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\Images\Gallery\Finished\" />
+      <Folder Include="wwwroot\Images\Gallery\Flash\" />
     </ItemGroup>
 
 </Project>

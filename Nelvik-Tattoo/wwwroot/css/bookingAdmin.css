@@ -1,0 +1,88 @@
+﻿#prev {
+    background: #6b7280;
+}
+
+#next {
+    background: #3b82f6;
+}
+
+.actions button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.copy-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.copy-icon:hover {
+    color: #000;
+}
+
+.copy-icon { pointer-events: auto; }
+
+.copy-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.copy-icon:hover {
+    color: #fff;
+}
+
+.copied-msg {
+    margin-left: 6px;
+    font-size: 0.75rem;
+    color: #28a745;
+    animation: fadeOut 1.2s forwards;
+}
+
+@keyframes fadeOut {
+    0%   { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Fra / Til label-tekst */
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e5e7eb;
+    font-weight: 600;
+}
+
+.filters input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #9ca3af;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.filters input::placeholder {
+    color: #cbd5e1;
+}
+
+form.filters button {
+    background-color: #6b7280;
+    color: #ffffff;
+    border: 1px solid #d1d5db;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: none;
+}
+
+.filters button:hover {
+    background: #4b5563;
+}

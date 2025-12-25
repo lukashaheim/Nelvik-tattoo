@@ -1,0 +1,92 @@
+﻿.home-gallery-img {
+    width: 100%;
+    height: 375px;
+    object-fit: cover;
+    display: block;
+}
+
+.home-gallery-edit-img {
+    width: 100%;
+    height: 250px;
+    max-height: 500px;
+}
+
+.home-info-section {
+    padding: 40px 0;
+    background: #111;              /* dark gray/black */
+}
+
+.info-heading {
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.info-line {
+    color: #ddd;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+.info-item {
+    margin-bottom: 8px;
+}
+.home-info-section {
+    padding: 40px 0;
+    background: #111;
+}
+
+.info-heading {
+    color: #fff;
+}
+.info-item {
+    color: #ddd;
+}
+.book-btn {
+    font-size: 1.3rem;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.book-btn a {
+    padding: 12px;
+}
+/* Wrapper acts like a clickable button */
+.select-image-wrapper {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Hide real checkbox */
+.select-image-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.checkmark-overlay {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px;       /* your size */
+    height: 20px;      /* your size */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 4px; /* or 50% if circle */
+    display: flex;            /* centers content */
+    justify-content: center;  /* centers horizontally */
+    align-items: center;      /* centers vertically */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+
+/* show when selected */
+.select-image-wrapper input[type="checkbox"]:checked + img + .checkmark-overlay,
+.checkmark-overlay.active {
+    opacity: 1;
+}
+
+.select-image-wrapper input[type="checkbox"]:checked + img {
+    outline: 3px solid #fff;
+}
+

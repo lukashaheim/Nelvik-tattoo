@@ -1,12 +1,18 @@
-﻿@{
+﻿@model IEnumerable<Nelvik_Tattoo.Models.GalleryDesign>
+
+@{
     ViewData["Title"] = "Home";
+    ViewData["BodyClass"] = "home-page";
+    Layout = "_Layout";
+
 }
+
 
 @section FullWidth {
     <div class="container-fluid px-0">
         <div class="hero-section">
             <div class="hero-content">
-                <h1>I</h1>
+                
             </div>
         </div>
     </div>
@@ -15,9 +21,61 @@
 @section Styles {
     <style>
     .hero-section {
-        background-image: url('@Url.Content("~/Images/Gallery/forside_1.jpg")');
+        background-image: url('@Url.Content("~/Images/forside/forside_1.jpg")');
     }
   </style>
 }
+<div class="container my-5">
 
-<a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-primary">Book time</a>
+<section class="home-gallery-section mb-5">
+
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Featured Designs</h2>
+            <a asp-controller="Gallery"
+               asp-action="Index"
+               class="btn btn-outline-light">
+                See All Designs
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @foreach (var design in Model)
+        {
+            <div class="featured-image-container col-6 col-md-4 col-lg-3 text-center">
+                <a asp-controller="Gallery"
+                   asp-action="Details"
+                   asp-route-id="@design.Id"
+                   class="home-gallery-thumb d-block">
+
+                    <img src="@design.ImagePath"
+                         alt="@design.Title"
+                         class="img-fluid home-gallery-img" />
+                </a>
+            </div>
+        }
+    </div>
+    
+    <div class="row my-5">
+        <div class="col-12 text-center">
+            <a asp-controller="Booking" asp-action="Index" method="post" class="btn btn-outline-light book-btn">Book Appointment</a>
+        </div>
+    </div>
+    </section>
+
+    <section class="home-info-section mb-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3 class="info-heading mb-4">Contact Information</h3>
+
+                <div class="info-item"><i class="bi bi-geo-alt-fill"></i> Dops gate 4, Oslo</div>
+                <div class="info-item"><i class="bi bi-envelope-fill"></i> <a href="mailto:nikolainelvik@gmail.com">nikolainelvik@gmail.com</a></div>
+                <div class="info-item"><i class="bi bi-instagram"></i> @@<a href="https://www.instagram.com/nelvik.tattoos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">nelvik.tattoos</a></div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+

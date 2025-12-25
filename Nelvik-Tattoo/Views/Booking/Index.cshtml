@@ -1,64 +1,130 @@
 @model Nelvik_Tattoo.Models.Booking
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="css/booking.css">
 
-<form method="post" enctype="multipart/form-data">
+@{
+    ViewData["Title"] = "Booking";
+
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="css/booking.css" asp-append-version="true">
+
+<form asp-controller="Booking" asp-action="Index" method="post" enctype="multipart/form-data">
     <div class="progress-bar">
         <div class="progress-fill" id="progress"></div>
     </div>
-    <div class="wizard">
-        <!-- Første steg -->
+
+    <div class="wizard booking-grid">
         <fieldset class="panel" id="p1">
-            <legend>1. Date and time</legend>
-            <label for="date">Date</label>
-            <input id="date" asp-for="SelectedDate" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+            <legend class="required">1. Design / Concept</legend>
+            @Html.TextAreaFor(m => m.Design, 6, 0, new { @class = "form-control", placeholder = "Example. I want a dragon" })
+            @Html.ValidationMessageFor(m => m.Design)
+        </fieldset>
+
+        <fieldset class="panel locked" id="p2" disabled>
+            <legend class="required">2. Placement</legend>
+            @Html.TextAreaFor(m => m.Placement, 6, 0, new { @class = "form-control", placeholder = "Example. Forearm" })
+            @Html.ValidationMessageFor(m => m.Placement)
+        </fieldset>
+
+        <fieldset class="panel locked" id="p3" disabled>
+            <legend class="required">3. Size</legend>
+            <div class="size-grid">
+                <input type="radio" class="btn-check" asp-for="Size" id="small" value="1">
+                <label class="btn size-choice" for="small">Small<br>5–10 cm</label>
+
+                <input type="radio" class="btn-check" asp-for="Size" id="medium" value="2">
+                <label class="btn size-choice" for="medium">Medium<br>10–20 cm</label>
+
+                <input type="radio" class="btn-check" asp-for="Size" id="large" value="3">
+                <label class="btn size-choice" for="large">Large<br>20–30 cm</label>
+
+                <input type="radio" class="btn-check" asp-for="Size" id="xl" value="4">
+                <label class="btn size-choice" for="xl">XL<br>Over 30 cm</label>
+            </div>
+            @Html.ValidationMessageFor(m => m.Size)
+        </fieldset>
+
+        <fieldset class="panel locked" id="p4" disabled>
+            <legend>4. Image</legend>
+            <input id="Photo" asp-for="Photo" type="file" accept="image/*" class="form-control" />
+            @Html.ValidationMessageFor(m => m.Photo)
+        </fieldset>
+
+        <fieldset class="panel locked" id="p5" disabled>
+            <legend class="required">5. Budget / Pricerange</legend>
+            @Html.TextAreaFor(m => m.Budget, 6, 0, new { @class = "form-control", placeholder = "Example. 3000 - 6500 kr" })
+            @Html.ValidationMessageFor(m => m.Budget)
+        </fieldset>
+
+        <fieldset class="panel locked" id="p6" disabled>
+            <legend class="required">6. Preferred Date / Time</legend>
+            <input id="date" asp-for="SelectedDate" class="form-control" type="date" asp-format="{0:yyyy-MM-dd}" />
+            @Html.ValidationMessageFor(m => m.SelectedDate)
+
             <div style="display:flex; gap:10px; margin-top:10px">
                 <div style="flex:1">
-                    <label for="timeStart">From</label>
+                    @Html.LabelFor(m => m.SelectedStartTime, new { @class = "required" })
                     <input id="timeStart" asp-for="SelectedStartTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    @Html.ValidationMessageFor(m => m.SelectedStartTime)
                 </div>
                 <div style="flex:1">
-                    <label for="timeEnd">To</label>
+                    @Html.LabelFor(m => m.SelectedEndTime, new { @class = "required" })
                     <input id="timeEnd" asp-for="SelectedEndTime" class="form-control" asp-format="{0:HH\\:mm}" />
+                    @Html.ValidationMessageFor(m => m.SelectedEndTime)
                 </div>
             </div>
         </fieldset>
 
-        <!-- Andre steg -->
-        <fieldset class="panel locked" id="p2" disabled>
-            <legend>2. Image</legend>
-            <label for="Photo">Upload</label>
-            <input id="Photo" type="file" accept="image/*" class="form-control" />
+        <fieldset class="panel locked" id="p7" disabled>
+            <legend>7. Contact information</legend>
+
+            <div class="row">
+                @Html.LabelFor(m => m.Email, new { @class = "required" })
+                <input type="email" asp-for="Email" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Email)
+
+                @Html.LabelFor(m => m.Phone, new { @class = "required" })
+                <input type="tel" asp-for="Phone" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Phone)
+            </div>
+
+            <div class="row">
+                <label class="required">Preferred contact method</label>
+
+                <label>
+                    <input id="emailCM" type="radio" name="PrefferedCM" value="1" required>
+                    Email
+                </label>
+                <label>
+                    <input id="phoneCM" type="radio" name="PrefferedCM" value="2">
+                    SMS
+                </label>
+            </div>
         </fieldset>
 
-        <!-- Tredje steg -->
-        <fieldset class="panel locked" id="p3" disabled>
-            <legend>3. Details</legend>
-            <label for="Notes">Comments / placement / size</label>
-            <textarea id="Notes" name="Notes" class="form-control" rows="6"
-                      placeholder="Example. forearm, ca. 8x5 cm"></textarea>
+        <fieldset class="panel locked" id="p8" disabled>
+            <legend>8. Comment</legend>
+            @Html.TextAreaFor(m => m.Comment, 6, 0, new { @class = "form-control", placeholder = "Example. Sensitive skin" })
+            @Html.ValidationMessageFor(m => m.Comment)
         </fieldset>
     </div>
 
     <div class="actions">
         <button type="button" id="prev" class="btn btn-secondary" disabled>Back</button>
         <button type="button" id="next" class="btn btn-primary">Next</button>
-        <form asp-controller="Booking" asp-action="Confirmation" method="post">
         <button type="submit" id="finish" class="btn btn-success" disabled>Finish</button>
-        </form>
-
     </div>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    // Pickers
-    flatpickr("#date",{
-        dateFormat:"d-m-Y",
-        defaultDate:"today",
-        minDate:"today",
-        maxDate:new Date().fp_incr(61)}
-    );
+    flatpickr("#date", {
+        dateFormat: "Y-m-d",
+        defaultDate: "today",
+        minDate: "today",
+        maxDate: new Date().fp_incr(61)
+    });
+
     const timeStartPicker = flatpickr("#timeStart",{
         enableTime:true,
         noCalendar:true,
@@ -66,19 +132,19 @@
         dateFormat:"H:i",
         minTime:"08:00",
         maxTime:"16:00",
-        onChange:(_,str)=>timeEndPicker.set('minTime',str)}
-    );
+        onChange:(_,str)=>timeEndPicker.set('minTime',str)
+    });
+
     const timeEndPicker = flatpickr("#timeEnd",{
         enableTime:true,
         noCalendar:true,
         time_24hr:true,
         dateFormat:"H:i",
         minTime:"08:00",
-        maxTime:"16:00"}
-    );
+        maxTime:"16:00"
+    });
 
-    // Paneler er alltid synlige; kun lås/åpne funksjon.
-    let step = 1, max = 3;
+    let step = 1, max = 8;
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
     const finishBtn = document.getElementById('finish');
@@ -94,12 +160,19 @@
         fs.classList.add('locked');
     }
     function validate(n){
-        if(n===1){
+        if(n===6){
             const d = document.getElementById('date').value;
             const a = document.getElementById('timeStart').value;
             const b = document.getElementById('timeEnd').value;
-            if(!d || !a || !b){ alert('Velg dato og tid.'); return false; }
-            if(a > b){ alert('Slutt-tid kan ikke være før start.'); return false; }
+            if(!d || !a || !b){ alert('Choose a date and time.'); return false; }
+            if(a > b){ alert('end time cannot be before start time.'); return false; }
+        }
+        return true;
+    }
+    function ValidateContactMethod(n){
+        if(n===7){
+            const chosen = document.querySelector('input[name="PrefferedCM"]:checked');
+            if(!chosen){ alert('Choose preferred contact method'); return false; }
         }
         return true;
     }
@@ -108,29 +181,31 @@
         nextBtn.disabled = step===max;
         finishBtn.disabled = step!==max;
     }
-    
     function updateProgress() {
         const percent = (step / max) * 100;
         document.getElementById('progress').style.width = percent + '%';
     }
-    
+
     prevBtn.onclick = () => {
         if(step>1) {
             step--;
-            updateButtons();
-            updateProgress();
-        } 
-    };
-    nextBtn.onclick = () => {
-        if(!validate(step)) return;
-        if(step < max){ 
-            step++; 
-            unlock(step); 
+            lock(step+1);
             updateButtons();
             updateProgress();
         }
     };
 
-    // init: p1 åpen, p2/p3 låst
-    unlock(1); lock(2); lock(3); updateButtons(); updateProgress();
+    nextBtn.onclick = () => {
+        if(!ValidateContactMethod(step)) return;
+        if(!validate(step)) return;
+        if(step < max){
+            step++;
+            unlock(step);
+            updateButtons();
+            updateProgress();
+        }
+    };
+
+    updateButtons();
+    updateProgress();
 </script>

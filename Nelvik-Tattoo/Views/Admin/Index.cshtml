@@ -1,0 +1,57 @@
+﻿@using Nelvik_Tattoo.Data
+
+@{
+    ViewData["Title"] = "Admin";
+
+}
+
+
+
+@section FullWidth {
+    <div class="admin-bg">
+        <div class="container">
+            <h1>Velkommen tilbake</h1>
+
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="/"
+                  method="post"
+                  class="mb-3">
+                <button type="submit" class="btn btn-dark">Logg ut</button>
+            </form>
+
+            <p>Hva vil du gjøre idag?</p>
+
+            <div class="admin-actions">
+                <a asp-controller="AdminFaq" asp-action="Index" class="admin-btn">
+                    Rediger FAQ
+                </a>
+
+                <a asp-controller="AboutAdmin" asp-action="Index" class="admin-btn">
+                    Rediger i About
+                </a>
+
+                <a asp-controller="GalleryAdmin" asp-action="Index" class="admin-btn">
+                    Rediger i Galleri
+                </a>
+                
+                <a asp-controller="AdminBooking" asp-action="Index" class="admin-btn">
+                    Se bookinger
+                </a>
+                
+                @if (User.IsInRole(OwnerUserSeeder.OwnerRole))
+                {
+                    <a asp-controller="UsersAdmin" asp-action="Index" class="admin-btn">
+                        Brukere/Ansatte
+                    </a>
+                }
+                
+                <a class="admin-btn" href="/Identity/Account/Manage/TwoFactorAuthentication">
+                    Profile / 2FA
+                </a>
+
+            </div>
+            
+        </div>
+    </div>
+}

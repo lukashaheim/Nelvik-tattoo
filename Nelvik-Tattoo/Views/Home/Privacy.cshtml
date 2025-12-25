@@ -1,6 +1,91 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="container py-5 text-light">
+    <h1 class="mb-4">Privacy Policy</h1>
+    <p><em>Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</em></p>
+
+    <h3 class="mt-4">1. Information We Collect</h3>
+    <p>We may collect the following personal information:</p>
+    <ul>
+        <li><strong>Information you provide:</strong> Name, email address, phone number, and messages you send via forms.</li>
+        <li><strong>Information collected automatically:</strong> IP address, browser type and version, device information, pages visited, and time/date of access.</li>
+    </ul>
+
+    <h3 class="mt-4">2. How We Use Your Information</h3>
+    <p>We use your personal data to:</p>
+    <ul>
+        <li>Respond to inquiries or booking requests</li>
+        <li>Communicate about appointments</li>
+        <li>Improve website performance and user experience</li>
+        <li>Ensure website security and prevent misuse</li>
+    </ul>
+    <p>We do <strong>not</strong> sell or share your data with third parties, except when required by law.</p>
+
+    <h3 class="mt-4">3. Legal Basis for Processing (GDPR)</h3>
+    <p>We process your data based on:</p>
+    <ul>
+        <li><strong>Consent</strong> – when you submit a form</li>
+        <li><strong>Legitimate interest</strong> – website operation and security</li>
+        <li><strong>Legal obligations</strong> – when required by authorities</li>
+    </ul>
+
+    <h3 class="mt-4">4. Cookies</h3>
+    <p>Our website may use cookies to support functionality and analyze visitor traffic. You may disable cookies in your browser settings.</p>
+
+    <h3 class="mt-4">5. Data Storage and Security</h3>
+    <p>We store personal data securely and restrict access to authorized personnel only. We take appropriate measures to protect your information from unauthorized access, loss, or misuse.</p>
+
+    <h3 class="mt-4">6. Data Retention</h3>
+    <p>Your data is kept only as long as necessary to respond to messages, manage communication, or comply with legal requirements. After this, data is deleted or anonymized.</p>
+
+    <h3 class="mt-4">7. Your Rights (GDPR)</h3>
+    <p>You have the right to:</p>
+    <ul>
+        <li>Access your personal data</li>
+        <li>Request corrections</li>
+        <li>Request deletion</li>
+        <li>Withdraw consent</li>
+        <li>Object to processing</li>
+    </ul>
+
+    <p>To exercise your rights, contact us at:</p>
+    <p>
+        <strong>Email:</strong> your-email@example.com<br />
+        <strong>Phone:</strong> +47 XXX XX XXX
+    </p>
+
+    <h3 class="mt-4">8. Third-Party Services</h3>
+    <p>Third-party services such as analytics, embedded content, or social media integrations may collect data according to their own policies. We do not control these providers.</p>
+
+    <h3 class="mt-4">9. Changes to This Policy</h3>
+    <p>We may update this Privacy Policy from time to time. Updates will be posted on this page with an adjusted revision date.</p>
+
+    <h3 class="mt-4">10. Contact Us</h3>
+    <p>
+        <strong>Nelvik Tattoo</strong><br />
+        Email: your-email@example.com<br />
+        Phone: +47 XXX XX XXX
+    </p>
+</section>
+
+<style>
+    /* Optional: match your dark theme styling */
+    body {
+        background: #000; /* or whatever your site uses */
+    }
+
+    h1, h3 {
+        font-weight: 700;
+    }
+
+    section p, section ul {
+        font-size: 1.1rem;
+        color: #ddd;
+    }
+
+    ul {
+        margin-bottom: 1rem;
+    }
+</style>

@@ -1,0 +1,28 @@
+﻿@model Nelvik_Tattoo.Models.FaqItem
+
+@{
+    ViewData["Title"] = "Rediger FAQ";
+}
+
+<h1>Rediger FAQ</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Question" class="control-label"></label>
+        <input asp-for="Question" class="form-control" />
+        <span asp-validation-for="Question" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Answer" class="control-label"></label>
+        <textarea asp-for="Answer" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Answer" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lagre</button>
+    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+</form>

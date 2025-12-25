@@ -1,6 +1,180 @@
+:root {
+    --flash-size: 450px;
+}
+
 img {
     max-width: 100%;
-    height: auto;
+    max-height: auto;
     display: block;
     margin: 0 auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem;
+}
+
+/* Tittel */
+.gallery-page h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Galleri – 3 bilder per rad */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    min-height: 300px;
+}
+
+.gallery-img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 3 / 4;
+}
+
+.gallery-img:hover {
+    transform: scale(1.02);
+}
+/* Gallery grid med 3 per rad */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.gallery-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+}
+
+/* Flash-grid-visning (på flash-siden) */
+.flash-page .flash-grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+    .flash-page .flash-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .flash-page .flash-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flash-page .flash-grid img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
+
+/* --- Flash stripe --- */
+/* --- FLASH STRIPE (fikset versjon) --- */
+.flash-section {
+    margin-bottom: 1rem;
+}
+
+.flash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flash-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* FLASH STRIPE – endelig fix */
+
+/* Selve stripen */
+.flash-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    height: 470px;
+    padding-bottom: 1rem;
+}
+
+/* Hvert element i stripen er LENKEN (<a>) */
+.flash-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 1rem;
+    height: calc(var(--flash-size) + 20px); /* stripe = litt høyere enn bildet */
+    padding-bottom: 1rem;
+}
+
+.flash-scroll a {
+    flex: 0 0 auto;
+    width: var(--flash-size);
+    height: var(--flash-size);
+    display: block;
+}
+
+.flash-scroll a img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+.gallery-item {
+    display: block;
+    width: 100%;
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.gallery-filter .btn {
+    background-color: white !important;
+    color: black !important;
+    border-color: white !important;
+}
+
+/* Inactive buttons (btn-outline-light) stay transparent with white border */
+.gallery-filter .btn-outline-light {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: white !important;
+}
+/* Arrow buttons */
+.flash-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 999px;
+    padding: 4px 8px;
+}
+
+.flash-arrow-left {
+    left: 0.5rem;
+}
+
+.flash-arrow-right {
+    right: 0.5rem;
 }
